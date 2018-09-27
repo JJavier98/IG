@@ -6,8 +6,6 @@
 #include <GL/glu.h>
 #include <GL/freeglut.h>
 
-
-
 void Ejes (int width)
 {   
     glLineWidth(width);
@@ -20,15 +18,10 @@ void Ejes (int width)
        glColor3f(1.0,1.0,0.0);
        glVertex3f(0.0,1.0,0.0);   
     glEnd();
-   
-       
 }
-
 
 void Monigote ()
 {
-  
- 
 // cara
 	glLineWidth(1);
 	glColor3f(1.0,0.8,0.6);
@@ -48,7 +41,6 @@ void Monigote ()
 		glVertex3f(0.2,0.55,0.0);
 		glVertex3f(-0.2,0.55,0.0);
 	glEnd(); 
-
 	
 // nariz
 	glColor3f(1.0,0.0,0.0);
@@ -96,11 +88,13 @@ void Monigote ()
 		glVertex3f(-0.27,0.4,0.0);
 		glVertex3f(-0.2,0.4,0.0);
 	glEnd(); 
+
 // ojos
 	const float RADIO_OJOS = 0.05;
 	const float ALTURA_OJOS = 0.4;
 	const float X_DCHA = 0.1;
 	const float X_IZDA = -0.1;
+	
 // ojo dcho
 	float cordx, cordy;
 	glColor3f(0.0,0.0,1.0);
