@@ -1,18 +1,16 @@
-#include <file_ply_stl.h>
 #include <GL/gl.h>
 #include <GL/glut.h>
 #include "stdlib.h"
 #include "stdio.h"
 #include <ctype.h>
+#include <file_ply_stl.h>
 
 #include "colors.h"
 #include "axis.h"
 #include "tetrahedron.h"
 #include "cube.h"
 #include "objeto_ply.h"
-#include <iostream>
 
-using namespace std;
 using namespace _colors_ne;
 
 const float X_MIN=-.1;
@@ -25,7 +23,7 @@ const float DEFAULT_DISTANCE=2;
 const float ANGLE_STEP=1;
 
 typedef enum {MODE_DRAW_POINT,MODE_DRAW_LINE,MODE_DRAW_FILL,MODE_DRAW_CHESS} _mode_draw;
-typedef enum {OBJECT_TETRAHEDRON,OBJECT_CUBE,OBJECT_PLY} _object;
+typedef enum {OBJECT_TETRAHEDRON,OBJECT_CUBE,OBJECT_PLY_} _object;
 
 // variables que definen la posicion de la camara en coordenadas polares
 GLfloat Observer_angle_x=0;
@@ -117,43 +115,43 @@ void draw_objects()
    Axis.draw_line();
 
    if (Draw_point){
-      glPointSize(5);
-      glColor3fv((GLfloat *) &BLACK);
-      switch (Object){
-	 	case OBJECT_TETRAHEDRON: Tetrahedron.draw_point();break;
-    	case OBJECT_CUBE: Cube.draw_point();break;
-    	case OBJECT_PLY: ObjPLY.draw_point();break;
-	 default:break;
-      }
-   }
+        glPointSize(5);
+        glColor3fv((GLfloat *) &BLACK);
+        switch (Object){
+            case OBJECT_TETRAHEDRON: Tetrahedron.draw_point();break;
+        	case OBJECT_CUBE: Cube.draw_point();break;
+        	case OBJECT_PLY_: ObjPLY.draw_point();break;
+        default:break;
+        }
+    }
 
-   if (Draw_line){
-      glLineWidth(3);
-      glColor3fv((GLfloat *) &MAGENTA);
-      switch (Object){
-	 	case OBJECT_TETRAHEDRON: Tetrahedron.draw_line();break;
-    	case OBJECT_CUBE: Cube.draw_line();break;
-    	case OBJECT_PLY: ObjPLY.draw_line();break;
-	 default:break;
-      }
-   }
+    if (Draw_line){
+        glLineWidth(3);
+        glColor3fv((GLfloat *) &MAGENTA);
+        switch (Object){
+    	 	case OBJECT_TETRAHEDRON: Tetrahedron.draw_line();break;
+        	case OBJECT_CUBE: Cube.draw_line();break;
+        	case OBJECT_PLY_: ObjPLY.draw_line();break;
+        default:break;
+        }
+    }
 
-   if (Draw_fill){
-      glColor3fv((GLfloat *) &BLUE);
-      switch (Object){
-	 	case OBJECT_TETRAHEDRON: Tetrahedron.draw_fill();break;
-    	case OBJECT_CUBE: Cube.draw_fill();break;
-    	case OBJECT_PLY: ObjPLY.draw_fill();break;
-	 default:break;
-      }
-   }
+    if (Draw_fill){
+        glColor3fv((GLfloat *) &BLUE);
+        switch (Object){
+    	 	case OBJECT_TETRAHEDRON: Tetrahedron.draw_fill();break;
+        	case OBJECT_CUBE: Cube.draw_fill();break;
+        	case OBJECT_PLY_: ObjPLY.draw_fill();break;
+        default:break;
+        }
+    }
 
    if (Draw_chess){
-      switch (Object){
-	 	case OBJECT_TETRAHEDRON: Tetrahedron.draw_chess();break;
-    	case OBJECT_CUBE: Cube.draw_chess();break;
-    	case OBJECT_PLY: ObjPLY.draw_chess();break;
-	 default:break;
+        switch (Object){
+    	 	case OBJECT_TETRAHEDRON: Tetrahedron.draw_chess();break;
+        	case OBJECT_CUBE: Cube.draw_chess();break;
+        	case OBJECT_PLY_: ObjPLY.draw_chess();break;
+	   default:break;
       }
    }
 }
@@ -202,17 +200,17 @@ void resize(int Ancho1,int Alto1)
 // CAMBIAR PLY
 void normal_keys(unsigned char Tecla1,int x,int y)
 {
-   switch (toupper(Tecla1)){
-      case '1':Object=OBJECT_TETRAHEDRON;break;
-      case '2':Object=OBJECT_CUBE;break;
-      case '6':Object=OBJECT_PLY;break;
+    switch (toupper(Tecla1)){
+        case '1':Object=OBJECT_TETRAHEDRON;break;
+        case '2':Object=OBJECT_CUBE;break;
+        case '6':Object=OBJECT_PLY_;break;
 
-      case 'P':Draw_point=!Draw_point;break;
-      case 'L':Draw_line=!Draw_line;break;
-      case 'F':Draw_fill=!Draw_fill;break;
-      case 'C':Draw_chess=!Draw_chess;break;
+        case 'P':Draw_point=!Draw_point;break;
+        case 'L':Draw_line=!Draw_line;break;
+        case 'F':Draw_fill=!Draw_fill;break;
+        case 'C':Draw_chess=!Draw_chess;break;
 
-      case 'Q':exit(0);
+        case 'Q':exit(0);
    }
    glutPostRedisplay();
 }
@@ -229,13 +227,13 @@ void normal_keys(unsigned char Tecla1,int x,int y)
 
 void special_keys(int Tecla1,int x,int y)
 {
-   switch (Tecla1){
-      case GLUT_KEY_LEFT:Observer_angle_y--;break;
-      case GLUT_KEY_RIGHT:Observer_angle_y++;break;
-      case GLUT_KEY_UP:Observer_angle_x--;break;
-      case GLUT_KEY_DOWN:Observer_angle_x++;break;
-      case GLUT_KEY_PAGE_UP:Observer_distance*=1.2;break;
-      case GLUT_KEY_PAGE_DOWN:Observer_distance/=1.2;break;
+    switch (Tecla1){
+        case GLUT_KEY_LEFT:Observer_angle_y--;break;
+        case GLUT_KEY_RIGHT:Observer_angle_y++;break;
+        case GLUT_KEY_UP:Observer_angle_x--;break;
+        case GLUT_KEY_DOWN:Observer_angle_x++;break;
+        case GLUT_KEY_PAGE_UP:Observer_distance*=1.2;break;
+        case GLUT_KEY_PAGE_DOWN:Observer_distance/=1.2;break;
    }
    glutPostRedisplay();
 }
@@ -248,15 +246,15 @@ void special_keys(int Tecla1,int x,int y)
 
 void initialize(void)
 {
-   // se indica cual sera el color para limpiar la ventana	(r,v,a,al)
-   glClearColor(1,1,1,1);
+    // se indica cual sera el color para limpiar la ventana	(r,v,a,al)
+    glClearColor(1,1,1,1);
 
-   // se habilita el z-bufer
-   glEnable(GL_DEPTH_TEST);
-   //
-   change_projection();
-   //
-   glViewport(0,0,UI_window_width,UI_window_height);
+    // se habilita el z-bufer
+    glEnable(GL_DEPTH_TEST);
+    //
+    change_projection();
+    //
+    glViewport(0,0,UI_window_width,UI_window_height);
 }
 
 
@@ -267,7 +265,7 @@ void initialize(void)
 // bucle de eventos
 //***************************************************************************
 
-int main(int argc, char const**argv)
+int main(int argc, char **argv)
 {
 	if(argc == 2)
 	{
@@ -279,12 +277,11 @@ int main(int argc, char const**argv)
 		if ( File_ply.open(argv[1]) )
 		{
 			File_ply.read(Vertices,Triangles);
-			cout << "File read correctly" << endl;
 
 			ObjPLY.load(Vertices, Triangles);
 		}
 		else
-			cout << "File can't be opened" << endl;
+			exit(1);
 	}
 
 	// se llama a la inicialización de glut

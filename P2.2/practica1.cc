@@ -1,21 +1,15 @@
-/*
- * Practicas de IG
- * Domingo Martin Perandres© 2014-2018
- * dmartin@ugr.es
- *
- * GPL 3
- */
-
 #include <GL/gl.h>
 #include <GL/glut.h>
 #include "stdlib.h"
 #include "stdio.h"
 #include <ctype.h>
+#include <file_ply_stl.h>
 
 #include "colors.h"
 #include "axis.h"
 #include "tetrahedron.h"
 #include "cube.h"
+#include "objeto_ply.h"
 
 using namespace _colors_ne;
 
@@ -29,7 +23,7 @@ const float DEFAULT_DISTANCE=2;
 const float ANGLE_STEP=1;
 
 typedef enum {MODE_DRAW_POINT,MODE_DRAW_LINE,MODE_DRAW_FILL,MODE_DRAW_CHESS} _mode_draw;
-typedef enum {OBJECT_TETRAHEDRON,OBJECT_CUBE} _object;
+typedef enum {OBJECT_TETRAHEDRON,OBJECT_CUBE,OBJECT_PLY_} _object;
 
 // variables que definen la posicion de la camara en coordenadas polares
 GLfloat Observer_angle_x=0;
@@ -45,6 +39,7 @@ int UI_window_pos_x=50,UI_window_pos_y=50,UI_window_width=800,UI_window_height=8
 _axis Axis;
 _tetrahedron Tetrahedron;
 _cube Cube;
+_objectPLY Objeto_ply;
 
 bool Draw_point=false;
 bool Draw_line=true;
@@ -115,44 +110,55 @@ void change_observer()
 
 void draw_objects()
 {
-   Axis.draw_line();
+    Axis.draw_line();
 
-   if (Draw_point){
-      glPointSize(5);
-      glColor3fv((GLfloat *) &BLACK);
-      switch (Object){
-	 case OBJECT_TETRAHEDRON:Tetrahedron.draw_point();break;
-    case OBJECT_CUBE:Cube.draw_point();break;
-	 default:break;
-      }
-   }
+    if (Draw_point){
+        glPointSize(5);
+        glColor3fv((GLfloat *) &BLACK);
+        switch (Object){
+            case OBJECT_TETRAHEDRON:
+                Tetrahedron.draw_point();
+                break;
+            case OBJECT_CUBE:
+                Cube.draw_point();
+                break;
+            case OBJECT_PLY_:
+                Objeto_ply.draw_point();
+                break;
+            default:
+                break;
+        }
+    }
 
-   if (Draw_line){
-      glLineWidth(3);
-      glColor3fv((GLfloat *) &MAGENTA);
-      switch (Object){
-	 case OBJECT_TETRAHEDRON:Tetrahedron.draw_line();break;
-    case OBJECT_CUBE:Cube.draw_line();break;
-	 default:break;
-      }
-   }
+    if (Draw_line){
+        glLineWidth(3);
+        glColor3fv((GLfloat *) &MAGENTA);
+        switch (Object){
+            case OBJECT_TETRAHEDRON:Tetrahedron.draw_line();break;
+            case OBJECT_CUBE:Cube.draw_line();break;
+            case OBJECT_PLY_:Objeto_ply.draw_line();break;
+        default:break;
+        }
+    }
 
-   if (Draw_fill){
-      glColor3fv((GLfloat *) &BLUE);
-      switch (Object){
-	 case OBJECT_TETRAHEDRON:Tetrahedron.draw_fill();break;
-    case OBJECT_CUBE:Cube.draw_fill();break;
-	 default:break;
-      }
-   }
+    if (Draw_fill){
+        glColor3fv((GLfloat *) &BLUE);
+        switch (Object){
+            case OBJECT_TETRAHEDRON:Tetrahedron.draw_fill();break;
+            case OBJECT_CUBE:Cube.draw_fill();break;
+            case OBJECT_PLY_:Objeto_ply.draw_fill();break;
+        default:break;
+        }
+    }
 
-   if (Draw_chess){
-      switch (Object){
-	 case OBJECT_TETRAHEDRON:Tetrahedron.draw_chess();break;
-    case OBJECT_CUBE:Cube.draw_chess();break;
-	 default:break;
-      }
-   }
+    if (Draw_chess){
+        switch (Object){
+            case OBJECT_TETRAHEDRON:Tetrahedron.draw_chess();break;
+            case OBJECT_CUBE:Cube.draw_chess();break;
+            case OBJECT_PLY_:Objeto_ply.draw_chess();break;
+        default:break;
+        }
+    }
 }
 
 
@@ -200,6 +206,7 @@ void normal_keys(unsigned char Tecla1,int x,int y)
    switch (toupper(Tecla1)){
       case '1':Object=OBJECT_TETRAHEDRON;break;
       case '2':Object=OBJECT_CUBE;break;
+      case '6':Object=OBJECT_PLY_;break;
 
       case 'P':Draw_point=!Draw_point;break;
       case 'L':Draw_line=!Draw_line;break;

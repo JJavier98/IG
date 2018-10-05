@@ -49,7 +49,7 @@ default : $(TARGETS)
 
 # regla de dependencias
 #
-$(TARGETS) : basic_object3d.o object3d.o axis.o tetrahedron.o practica1.o cube.o
+$(TARGETS) : basic_object3d.o object3d.o axis.o tetrahedron.o practica1.o cube.o file_ply_stl.o objeto_ply.o
 
 practica1.o: practica1.cc
 
@@ -62,6 +62,10 @@ axis.o: basic_object3d.o axis.cc axis.h
 tetrahedron.o: tetrahedron.cc tetrahedron.h
 
 cube.o: cube.cc cube.h
+
+file_ply_stl.o: file_ply_stl.cc file_ply_stl.h vertex.h
+
+objeto_ply.o: objeto_ply.cc objeto_ply.h
 
 #
 #

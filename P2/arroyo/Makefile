@@ -52,7 +52,7 @@ default : $(TARGETS)
 
 # regla de dependencias
 #
-$(TARGETS) : file_ply_stl.o read_ply.o basic_object3d.o object3d.o axis.o tetrahedron.o practica1.o cube.o
+$(TARGETS) : file_ply_stl.o read_ply.o basic_object3d.o object3d.o axis.o tetrahedron.o cube.o objeto_ply.o
 
 read_ply.o: read_ply.cc file_ply_stl.cc
 
@@ -67,6 +67,8 @@ axis.o: basic_object3d.o axis.cc axis.h
 tetrahedron.o: tetrahedron.cc tetrahedron.h
 
 cube.o: cube.cc cube.h
+
+objeto_ply.o: objeto_ply.cc objeto_ply.h
 
 # regla para limpiar
 clean:
