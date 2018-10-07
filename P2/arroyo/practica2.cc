@@ -10,6 +10,10 @@
 #include "tetrahedron.h"
 #include "cube.h"
 #include "objeto_ply.h"
+#include "cylinder.h"
+#include "cone.h"
+#include "sphere.h"
+#include <math.h>
 
 using namespace _colors_ne;
 
@@ -23,7 +27,7 @@ const float DEFAULT_DISTANCE=2;
 const float ANGLE_STEP=1;
 
 typedef enum {MODE_DRAW_POINT,MODE_DRAW_LINE,MODE_DRAW_FILL,MODE_DRAW_CHESS} _mode_draw;
-typedef enum {OBJECT_TETRAHEDRON,OBJECT_CUBE,OBJECT_PLY_} _object;
+typedef enum {OBJECT_TETRAHEDRON,OBJECT_CUBE,OBJECT_PLY_,OBJECT_CYLINDER,OBJECT_CONE,OBJECT_SPHERE} _object;
 
 // variables que definen la posicion de la camara en coordenadas polares
 GLfloat Observer_angle_x=0;
@@ -40,6 +44,9 @@ _axis Axis;
 _tetrahedron Tetrahedron;
 _cube Cube;
 _objectPLY ObjPLY;
+_cylinder Cylinder;
+_cone Cone;
+_sphere Sphere;
 
 bool Draw_point=false;
 bool Draw_line=true;
@@ -120,7 +127,10 @@ void draw_objects()
         switch (Object){
             case OBJECT_TETRAHEDRON: Tetrahedron.draw_point();break;
         	case OBJECT_CUBE: Cube.draw_point();break;
-        	case OBJECT_PLY_: ObjPLY.draw_point();break;
+            case OBJECT_PLY_: ObjPLY.draw_point();break;
+            case OBJECT_CYLINDER: Cylinder.draw_point();break;
+            case OBJECT_CONE: Cone.draw_point();break;
+        	case OBJECT_SPHERE: Sphere.draw_point();break;
         default:break;
         }
     }
@@ -132,6 +142,9 @@ void draw_objects()
     	 	case OBJECT_TETRAHEDRON: Tetrahedron.draw_line();break;
         	case OBJECT_CUBE: Cube.draw_line();break;
         	case OBJECT_PLY_: ObjPLY.draw_line();break;
+            case OBJECT_CYLINDER: Cylinder.draw_line();break;
+            case OBJECT_CONE: Cone.draw_line();break;
+            case OBJECT_SPHERE: Sphere.draw_line();break;
         default:break;
         }
     }
@@ -142,6 +155,9 @@ void draw_objects()
     	 	case OBJECT_TETRAHEDRON: Tetrahedron.draw_fill();break;
         	case OBJECT_CUBE: Cube.draw_fill();break;
         	case OBJECT_PLY_: ObjPLY.draw_fill();break;
+            case OBJECT_CYLINDER: Cylinder.draw_fill();break;
+            case OBJECT_CONE: Cone.draw_fill();break;
+            case OBJECT_SPHERE: Sphere.draw_fill();break;
         default:break;
         }
     }
@@ -151,6 +167,9 @@ void draw_objects()
     	 	case OBJECT_TETRAHEDRON: Tetrahedron.draw_chess();break;
         	case OBJECT_CUBE: Cube.draw_chess();break;
         	case OBJECT_PLY_: ObjPLY.draw_chess();break;
+            case OBJECT_CYLINDER: Cylinder.draw_chess();break;
+            case OBJECT_CONE: Cone.draw_chess();break;
+            case OBJECT_SPHERE: Sphere.draw_chess();break;
 	   default:break;
       }
    }
@@ -203,6 +222,9 @@ void normal_keys(unsigned char Tecla1,int x,int y)
     switch (toupper(Tecla1)){
         case '1':Object=OBJECT_TETRAHEDRON;break;
         case '2':Object=OBJECT_CUBE;break;
+        case '3':Object=OBJECT_CONE;break;
+        case '4':Object=OBJECT_CYLINDER;break;
+        case '5':Object=OBJECT_SPHERE;break;
         case '6':Object=OBJECT_PLY_;break;
 
         case 'P':Draw_point=!Draw_point;break;
@@ -276,12 +298,63 @@ int main(int argc, char **argv)
 		
 		if ( File_ply.open(argv[1]) )
 		{
+      std::cout << "Archivo abierto con éxito" << std::endl;
+
 			File_ply.read(Vertices,Triangles);
 
 			ObjPLY.load(Vertices, Triangles);
+
+      float ux, uy, uz;
+      int selec;
+      bool rotar;
+
+      std::cout << "No rotar <0>, Rotar eje X <1>, Rotar eje Y <2>, Rotar eje Z <3>, Rotar vector arbitrario <4>:" << std::endl;
+
+      std::cin >> selec;
+
+      switch(selec)
+      {
+        default:
+          rotar = false;
+          break;
+        case 0:
+          rotar = false;
+          break;
+        case 1:
+          ux = 1;
+          uy = uz = 0;
+          rotar = true;
+          break;
+        case 2:
+          ux = uz = 0;
+          uy = 1;
+          rotar = true;
+          break;
+        case 3:
+          ux = uy = 0;
+          uz = 1;
+          rotar = true;
+          break;
+        case 4:
+          std::cout << "Introduce Ux:" << std::endl;
+
+          std::cin >> ux;
+
+          std::cout << "Introduce Uy:" << std::endl;
+
+          std::cin >> uy;
+
+          std::cout << "Introduce Uz:" << std::endl;
+
+          std::cin >> uz;
+          rotar = true;
+          break;
+      }
+      if(rotar)
+        ObjPLY.rotarArbitrario(ux,uy,uz);
 		}
 		else
-			exit(1);
+			std::cout << "No se ha podido abrir el archivo" << std::endl;
 	}
 
 	// se llama a la inicialización de glut

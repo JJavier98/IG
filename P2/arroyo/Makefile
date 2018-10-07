@@ -4,7 +4,7 @@
 
 # nombre del fichero ejecutable
 #
-TARGETS= read_ply
+TARGETS= practica2
 
 #
 GLUT_DIR=/usr
@@ -14,8 +14,8 @@ GL_DIR=/usr/X11R6
 # encontrar ficheros para incluir mediante la opcion -I
 # la opcion -g sirve para permitir la depuración
 #
-CFLAGS=   -std=c++11 -g -DXWINDOWS -DSHM -I/usr/include -I$(GLUT_DIR)/include -I.
-CXXFLAGS= -std=c++11 -g -DXWINDOWS -DSHM -I/usr/include -I$(GLUT_DIR)/include -I.
+CFLAGS=    -g -DXWINDOWS -DSHM -I/usr/include -I$(GLUT_DIR)/include -I.
+CXXFLAGS=  -g -DXWINDOWS -DSHM -I/usr/include -I$(GLUT_DIR)/include -I.
 
 # banderas pra el enlazador
 # Se indica directorios donde encontrar las funciontecas con -L. Usando -l seguido del
@@ -43,7 +43,7 @@ CC = g++
 # como pasar de .o a ejecutable (sin sufijo)
 
 .o:
-	$(CC) $(LDFLAGS) $^ -o $@
+	$(CC) -o $@ $^ $(LDFLAGS)
 
 # orden que sera ejecutada por defecto
 #
@@ -52,11 +52,11 @@ default : $(TARGETS)
 
 # regla de dependencias
 #
-$(TARGETS) : file_ply_stl.o read_ply.o basic_object3d.o object3d.o axis.o tetrahedron.o cube.o objeto_ply.o
+$(TARGETS) : basic_object3d.o object3d.o axis.o tetrahedron.o cube.o file_ply_stl.o objeto_ply.o practica2.o cylinder.o cone.o sphere.o
 
-read_ply.o: read_ply.cc file_ply_stl.cc
+practica2.o: practica2.cc
 
-file_ply_stl.o: file_ply_stl.cc file_ply_stl.h vertex.h
+file_ply_stl.o: file_ply_stl.cc file_ply_stl.h
 
 basic_object3d.o: basic_object3d.cc basic_object3d.h
 
@@ -70,7 +70,19 @@ cube.o: cube.cc cube.h
 
 objeto_ply.o: objeto_ply.cc objeto_ply.h
 
+cylinder.o: cylinder.cc cylinder.h
+
+cone.o: cone.cc cone.h
+
+sphere.o: sphere.cc sphere.h
+
 # regla para limpiar
 clean:
 	rm -f *.o
 	rm -f $(TARGETS)
+
+tgz:
+	rm -f *.o
+	rm *~
+	rm -f $(TARGETS)
+	tar -zcvf $(TARGETS).tgz *
