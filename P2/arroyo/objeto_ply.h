@@ -10,7 +10,7 @@
 class _objectPLY:public _object3D
 {
 private:
-	const float anguloRotacion = M_PI/36; //Radianes
+	const float anguloRotacion = M_PI/72; //Radianes
 	const int repeticiones_necesarias = 2*M_PI/anguloRotacion;
 public:
 	_objectPLY();

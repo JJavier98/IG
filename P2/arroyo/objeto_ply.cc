@@ -143,7 +143,7 @@ void _objectPLY::getData(vector<_vertex3f> & V, vector<_vertex3ui> & T)
 
 		a = 0;
 		int b = vertices_ini-1;
-		for (int i = 0; i < 72; ++i)
+		for (int i = 0; i < repeticiones_necesarias; ++i)
 		{
 			if(primerVertice.y < ultimoVertice.y)
 			{
