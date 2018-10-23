@@ -9,6 +9,8 @@
 
 class _grua:public _node3d
 {
+private:
+	void rotarArbitrario(float ux, float uy, float uz);
 protected:
 	_node3d base_n;
 	_node3d tronco_n;
@@ -22,6 +24,10 @@ public:
 	void draw_line();
 	void draw_fill();
 	void draw_chess();
+
+	void rotar_tronco();
+	void mover_brazo1();
+	void deslizar_brazo3();
 };
 
 #endif
