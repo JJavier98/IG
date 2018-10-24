@@ -9,17 +9,8 @@ class _brazo:public _object3D
 {
 private:
 	_objectPLY cylinder;
-
-	float xt, yt, zt;
-	float xr, yr, zr;
-	float xs, ys, zs;
 public:
    _brazo();
-
-	void draw_point();
-	void draw_line();
-	void draw_fill();
-	void draw_chess();
 };
 
 #endif

@@ -3,20 +3,14 @@
 
 #include "nodo_3d.h"
 #include "base_grua.h"
-#include "tronco_grua.h"
 #include "brazo.h"
 #include "extensor.h"
+#include <cmath>
 
-class _grua:public _node3d
+class _grua
 {
-private:
-	void rotarArbitrario(float ux, float uy, float uz);
 protected:
-	_node3d base_n;
-	_node3d tronco_n;
-	_node3d brazo1_n;
-	_node3d brazo2_n;
-	_node3d brazo3_n;
+	_base base;
 public:
 	_grua();
 

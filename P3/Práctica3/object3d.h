@@ -6,15 +6,15 @@
 class _object3D:public _basic_object3D
 {
 public:
-   vector<_vertex3ui> Triangles;
 
-   void draw_line();
-   void draw_fill();
-   void draw_chess();
+	vector<_vertex3ui> Triangles;
 
-   _object3D();
-   _object3D& operator = (const _object3D &p);
+	void draw_line();
+	void draw_fill();
+	void draw_chess();
 
+	_object3D();
+	_object3D& operator = (const _object3D &p);
 };
 
 #endif // OBJECT3D_H
