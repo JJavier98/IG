@@ -4,22 +4,26 @@
 #include "cylinder.h"
 #include "object3d.h"
 #include "objeto_ply.h"
+#include "extensor.h"
 
 class _brazo:public _object3D
 {
 private:
 	_objectPLY cylinder;
+	_extensor extensor;
 
 	float xt, yt, zt;
 	float xr, yr, zr;
 	float xs, ys, zs;
-public:
-   _brazo();
 
-	void draw_point();
-	void draw_line();
-	void draw_fill();
-	void draw_chess();
+	int angulo2 = 0;
+public:
+  	_brazo();
+
+	void draw_point_();
+	void draw_line_();
+	void draw_fill_();
+	void draw_chess_();
 };
 
 #endif

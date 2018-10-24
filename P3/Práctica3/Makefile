@@ -4,7 +4,7 @@
 
 # nombre del fichero ejecutable
 #
-TARGETS= practica2
+TARGETS= practica3
 
 #
 GLUT_DIR=/usr
@@ -52,9 +52,9 @@ default : $(TARGETS)
 
 # regla de dependencias
 #
-$(TARGETS) : basic_object3d.o object3d.o axis.o tetrahedron.o cube.o file_ply_stl.o objeto_ply.o practica2.o cylinder.o cone.o sphere.o base_grua.o tronco_grua.o brazo.o grua.o paralelepipedo.o nodo_3d.o extensor.o
+$(TARGETS) : basic_object3d.o object3d.o axis.o tetrahedron.o cube.o file_ply_stl.o objeto_ply.o practica3.o cylinder.o cone.o sphere.o base_grua.o tronco_grua.o brazo.o grua.o paralelepipedo.o extensor.o punta.o
 
-practica2.o: practica2.cc
+practica3.o: practica3.cc
 
 file_ply_stl.o: file_ply_stl.cc file_ply_stl.h
 
@@ -86,9 +86,9 @@ grua.o: grua.cc grua.h
 
 paralelepipedo.o: paralelepipedo.cc paralelepipedo.h
 
-nodo_3d.o: nodo_3d.cc nodo_3d.h
-
 extensor.o: extensor.cc extensor.h
+
+punta.o: punta.cc punta.h
 
 
 # regla para limpiar

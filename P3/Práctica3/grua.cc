@@ -25,116 +25,20 @@ void _grua::deslizar_brazo3()
 
 void _grua::draw_point()
 {
-	glMatrixMode(GL_MODELVIEW);
-	
-	// brazo1
-	glPushMatrix();
-	//glScalef(1.0,1.5,1.0);
-	glTranslatef(0.0,0.9,0.0);
-	glRotatef(-45,0,0,1);
-	(brazo1_n.obj).draw_point();
-	glPopMatrix();
-
-	// brazo2
-	glPushMatrix();
-	glScalef(0.5,0.5,0.5);
-	glTranslatef(-1.45,3.2,0.0);
-	glRotatef(135,0,0,1);
-	(brazo2_n.obj).draw_point();
-	glPopMatrix();
-
-	//brazo3
-	glPushMatrix();
-	glTranslatef(-0.825,1.5,0.0);
-	glRotatef(45,0,0,1);
-	glScalef(0.6,0.5,0.5);
-	(brazo3_n.obj).draw_point();
-	glPopMatrix();
+	base.draw_point_();
 }
 
 void _grua::draw_line()
 {
-	glMatrixMode(GL_MODELVIEW);
-	
-	// brazo1
-	glPushMatrix();
-	//glScalef(1.0,1.5,1.0);
-	glTranslatef(0.0,0.9,0.0);
-	glRotatef(-45,0,0,1);
-	(brazo1_n.obj).draw_line();
-	glPopMatrix();
-
-	// brazo2
-	glPushMatrix();
-	glScalef(0.5,0.5,0.5);
-	glTranslatef(-1.45,3.2,0.0);
-	glRotatef(135,0,0,1);
-	(brazo2_n.obj).draw_line();
-	glPopMatrix();
-
-	//brazo3
-	glPushMatrix();
-	glTranslatef(-0.825,1.5,0.0);
-	glRotatef(45,0,0,1);
-	glScalef(0.6,0.5,0.5);
-	(brazo3_n.obj).draw_line();
-	glPopMatrix();
+	base.draw_line_();
 }
 
 void _grua::draw_fill()
 {
-	glMatrixMode(GL_MODELVIEW);
-	
-	// brazo1
-	glPushMatrix();
-	//glScalef(1.0,1.5,1.0);
-	glTranslatef(0.0,0.9,0.0);
-	glRotatef(-45,0,0,1);
-	(brazo1_n.obj).draw_fill();
-	glPopMatrix();
-
-	// brazo2
-	glPushMatrix();
-	glScalef(0.5,0.5,0.5);
-	glTranslatef(-1.45,3.2,0.0);
-	glRotatef(135,0,0,1);
-	(brazo2_n.obj).draw_fill();
-	glPopMatrix();
-
-	//brazo3
-	glPushMatrix();
-	glTranslatef(-0.825,1.5,0.0);
-	glRotatef(45,0,0,1);
-	glScalef(0.6,0.5,0.5);
-	(brazo3_n.obj).draw_fill();
-	glPopMatrix();
+	base.draw_fill_();
 }
 
 void _grua::draw_chess()
 {
-	glMatrixMode(GL_MODELVIEW);
-	
-	// brazo1
-	glPushMatrix();
-	//glScalef(1.0,1.5,1.0);
-	glTranslatef(0.0,0.9,0.0);
-	glRotatef(-45,0,0,1);
-	(brazo1_n.obj).draw_chess();
-	glPopMatrix();
-
-	// brazo2
-	glPushMatrix();
-	glScalef(0.5,0.5,0.5);
-	glTranslatef(-1.45,3.2,0.0);
-	glRotatef(135,0,0,1);
-	(brazo2_n.obj).draw_chess();
-	glPopMatrix();
-
-	//brazo3
-	glPushMatrix();
-	glTranslatef(-0.825,1.5,0.0);
-	glRotatef(45,0,0,1);
-	glScalef(0.6,0.5,0.5);
-	(brazo3_n.obj).draw_chess();
-	glPopMatrix();
+	base.draw_chess_();
 }

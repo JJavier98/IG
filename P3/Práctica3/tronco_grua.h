@@ -4,23 +4,24 @@
 #include "paralelepipedo.h"
 #include "brazo.h"
 
-class _tronco:public _paralel
+class _tronco
 {
 protected:
+	_paralel tronco;
 	_brazo brazo;
 
 	float xt, yt, zt;
 	float xr, yr, zr;
 	float xs, ys, zs;
 
-	int angulo = 0;
+	int angulo1 = 0;
 public:
 	_tronco();
 
-	void draw_point();
-	void draw_line();
-	void draw_fill();
-	void draw_chess();
+	void draw_point_();
+	void draw_line_();
+	void draw_fill_();
+	void draw_chess_();
 };
 
 #endif

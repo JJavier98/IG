@@ -11,65 +11,60 @@ _brazo::_brazo()
 	cylinder.load(Vertices, Triangles);
 	cylinder.rotarArbitrario(1,0,0);
 	cylinder.getData(Vertices, Triangles);
-
-	xt = 0.0;
-	yt = 0.9;
-	zt = 0.0;
-
-	xr = 1.0;
-	yr = 1.0;
-	zr = 1.0;
-
-	xs = 1.0;
-	ys = 1.0;
-	zs = 1.0;
 }
 
-void _base::draw_point()
+void _brazo::draw_point_()
 {
-	brazo.draw_point();
-
 	glMatrixMode(GL_MODELVIEW);
 	// brazo
 	glPushMatrix();
-	glTranslatef(0.0,0.9,0.0);
-	glRotatef(-45,0,0,1);
-	(brazo1_n.obj).draw_point();
+	glTranslatef(xt, yt, zt);
+	glRotatef(angulo2,xr,yr,zr);
+	glScalef(xs,ys,zs);
+	// extensor
+		extensor.draw_point_();
+	cylinder.draw_point();
 	glPopMatrix();
 }
 
-void _base::draw_line()
+void _brazo::draw_line_()
 {
-	brazo.draw_line();
-
 	glMatrixMode(GL_MODELVIEW);
 	// brazo
 	glPushMatrix();
-	glTranslatef(xs, ys, zs);
-	obj.draw_line();
+	glTranslatef(xt, yt, zt);
+	glRotatef(angulo2,xr,yr,zr);
+	glScalef(xs,ys,zs);
+	// extensor
+		extensor.draw_line_();
+	cylinder.draw_line();
 	glPopMatrix();
 }
 
-void _base::draw_fill()
+void _brazo::draw_fill_()
 {
-	brazo.draw_fill();
-
 	glMatrixMode(GL_MODELVIEW);
 	// brazo
 	glPushMatrix();
-	glTranslatef(xs, ys, zs);
-	obj.draw_fill();
+	glTranslatef(xt, yt, zt);
+	glRotatef(angulo2,xr,yr,zr);
+	glScalef(xs,ys,zs);
+	// extensor
+		extensor.draw_fill_();
+	cylinder.draw_fill();
 	glPopMatrix();
 }
 
-void _base::draw_chess()
+void _brazo::draw_chess_()
 {
-	brazo.draw_chess();
-
 	glMatrixMode(GL_MODELVIEW);
 	// brazo
 	glPushMatrix();
-	glTranslatef(xs, ys, zs);
-	obj.draw_chess();
+	glTranslatef(xt, yt, zt);
+	glRotatef(angulo2,xr,yr,zr);
+	glScalef(xs,ys,zs);
+	// extensor
+		extensor.draw_chess_();
+	cylinder.draw_chess();
 	glPopMatrix();
 }

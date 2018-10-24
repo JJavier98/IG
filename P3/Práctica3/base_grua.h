@@ -4,9 +4,10 @@
 #include "cylinder.h"
 #include "tronco_grua.h"
 
-class _base:public _cylinder
+class _base
 {
 protected:
+	_cylinder cilindro;
 	_tronco tronco;
 
 	float xt, yt, zt;
@@ -15,10 +16,10 @@ protected:
 public:
 	_base();
 
-	void draw_point();
-	void draw_line();
-	void draw_fill();
-	void draw_chess();
+	void draw_point_();
+	void draw_line_();
+	void draw_fill_();
+	void draw_chess_();
 };
 
 #endif

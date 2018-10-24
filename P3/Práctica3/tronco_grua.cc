@@ -8,59 +8,67 @@ _tronco::_tronco()
 	yt = 0.1;
 	zt = 0.0;
 
-	xr = 1.0;
+	xr = 0.0;
 	yr = 1.0;
-	zr = 1.0;
+	zr = 0.0;
 
 	xs = 1.0;
 	ys = 1.0;
 	zs = 1.0;
 }
 
-void _base::draw_point()
+void _tronco::draw_point_()
 {
-	brazo.draw_point();
-
 	glMatrixMode(GL_MODELVIEW);
 	// tronco
 	glPushMatrix();
-	glTranslatef(xs, ys, zs);
-	obj.draw_point();
+	glTranslatef(xt, yt, zt);
+	glRotatef(angulo1,xr,yr,zr);
+	glScalef(xs,ys,zs);
+	//brazo
+		brazo.draw_point_();
+	tronco.draw_point();
 	glPopMatrix();
 }
 
-void _base::draw_line()
+void _tronco::draw_line_()
 {
-	brazo.draw_line();
-
 	glMatrixMode(GL_MODELVIEW);
 	// tronco
 	glPushMatrix();
-	glTranslatef(xs, ys, zs);
-	obj.draw_line();
+	glTranslatef(xt, yt, zt);
+	glRotatef(angulo1,xr,yr,zr);
+	glScalef(xs,ys,zs);
+	//brazo
+		brazo.draw_line_();
+	tronco.draw_line();
 	glPopMatrix();
 }
 
-void _base::draw_fill()
+void _tronco::draw_fill_()
 {
-	brazo.draw_fill();
-
 	glMatrixMode(GL_MODELVIEW);
 	// tronco
 	glPushMatrix();
-	glTranslatef(xs, ys, zs);
-	obj.draw_fill();
+	glTranslatef(xt, yt, zt);
+	glRotatef(angulo1,xr,yr,zr);
+	glScalef(xs,ys,zs);
+	//brazo
+		brazo.draw_fill_();
+	tronco.draw_fill();
 	glPopMatrix();
 }
 
-void _base::draw_chess()
+void _tronco::draw_chess_()
 {
-	brazo.draw_chess();
-
 	glMatrixMode(GL_MODELVIEW);
 	// tronco
 	glPushMatrix();
-	glTranslatef(xs, ys, zs);
-	obj.draw_chess();
+	glTranslatef(xt, yt, zt);
+	glRotatef(angulo1,xr,yr,zr);
+	glScalef(xs,ys,zs);
+	//brazo
+		brazo.draw_chess_();
+	tronco.draw_chess();
 	glPopMatrix();
 }
