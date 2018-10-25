@@ -1,7 +1,6 @@
 #ifndef GRUA_H
 #define GRUA_H
 
-#include "nodo_3d.h"
 #include "base_grua.h"
 #include "brazo.h"
 #include "extensor.h"
