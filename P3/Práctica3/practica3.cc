@@ -30,6 +30,7 @@ const float ANGLE_STEP=1;
 
 typedef enum {MODE_DRAW_POINT,MODE_DRAW_LINE,MODE_DRAW_FILL,MODE_DRAW_CHESS} _mode_draw;
 typedef enum {OBJECT_TETRAHEDRON,OBJECT_CUBE,OBJECT_PLY_,OBJECT_CYLINDER,OBJECT_CONE,OBJECT_SPHERE,OBJECT_HIERARCHY} _object;
+bool animacion = false;
 
 // variables que definen la posicion de la camara en coordenadas polares
 GLfloat Observer_angle_x=0;
@@ -224,6 +225,24 @@ void resize(int Ancho1,int Alto1)
 // posicion y del raton
 //***************************************************************************
 
+/**
+* Funcion conmutar animacion
+*
+*/
+
+void funcion_idle()
+{
+  Grua.funcion_idle();
+}
+
+void cambiarAnimacion()
+{
+  animacion = !animacion;
+  if(animacion)
+    glutIdleFunc(funcion_idle);
+  else
+    glutIdleFunc(nullptr);
+}
 
 // CAMBIAR PLY
 void normal_keys(unsigned char Tecla1,int x,int y)
@@ -242,7 +261,30 @@ void normal_keys(unsigned char Tecla1,int x,int y)
         case 'F':Draw_fill=!Draw_fill;break;
         case 'C':Draw_chess=!Draw_chess;break;
 
-        case 'Q':exit(0);
+        case 'Q':Grua.incrementar_desplazamiento_punta();break;
+        case 'W':Grua.decrementar_desplazamiento_punta();break;
+
+        case 'S':Grua.incrementar_inclinacion_extensor();break;
+        case 'D':Grua.decrementar_inclinacion_extensor();break;
+
+        case 'Z':Grua.incrementar_inclinacion_brazo();break;
+        case 'X':Grua.decrementar_inclinacion_brazo();break;
+        
+        case 'E':Grua.incrementar_rotacion_tronco();break;
+        case 'R':Grua.decrementar_rotacion_tronco();break;
+        
+        case 'T':Grua.incrementar_velocidad_extensor();break;
+        case 'Y':Grua.decrementar_velocidad_extensor();break;
+
+        case 'U':Grua.incrementar_velocidad_brazo();break;
+        case 'I':Grua.decrementar_velocidad_brazo();break;
+
+        case 'J':Grua.incrementar_velocidad_tronco();break;
+        case 'K':Grua.decrementar_velocidad_tronco();break;
+
+        case 'A':cambiarAnimacion();break;
+
+        case '0':exit(0);
    }
    glutPostRedisplay();
 }

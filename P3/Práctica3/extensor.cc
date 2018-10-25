@@ -3,10 +3,8 @@
 
 _extensor::_extensor()
 {
-	_paralel(0.5, 1.0);
-
-	xt = -1.45;
-	yt = 3.2;
+	xt = -1.0;
+	yt = 0.0;
 	zt = 0.0;
 
 	xr = 0.0;
@@ -16,7 +14,46 @@ _extensor::_extensor()
 	xs = 0.5;
 	ys = 0.5;
 	zs = 0.5;
+
+	angulo3 = 180;
+	velocidad = 1.0;
 }
+
+
+void _extensor::incrementar_desplazamiento_punta()
+{
+	punta.incrementar_desplazamiento();
+}
+void _extensor::decrementar_desplazamiento_punta()
+{
+	punta.decrementar_desplazamiento();
+}
+
+void _extensor::incrementar_inclinacion()
+{
+	if(angulo3 + velocidad < 245)
+		angulo3 += velocidad;
+	else
+		angulo3 = 245;
+}
+void _extensor::decrementar_inclinacion()
+{
+	if(angulo3 - velocidad > -64)
+		angulo3 -= velocidad;
+	else
+		angulo3 = -64;
+}
+
+void _extensor::incrementar_velocidad()
+{
+	velocidad += 1;
+}
+void _extensor::decrementar_velocidad()
+{
+	if(velocidad > 1)
+		velocidad -= 1;
+}
+
 
 void _extensor::draw_point_()
 {
@@ -28,7 +65,7 @@ void _extensor::draw_point_()
 	glScalef(xs,ys,zs);
 	// punta
 		punta.draw_point_();
-	this->draw_point();
+	extend.draw_point();
 	glPopMatrix();
 }
 
@@ -42,7 +79,7 @@ void _extensor::draw_line_()
 	glScalef(xs,ys,zs);
 	// punta
 		punta.draw_line_();
-	this->draw_line();
+	extend.draw_line();
 	glPopMatrix();
 }
 
@@ -56,7 +93,7 @@ void _extensor::draw_fill_()
 	glScalef(xs,ys,zs);
 	// punta
 		punta.draw_fill_();
-	this->draw_fill();
+	extend.draw_fill();
 	glPopMatrix();
 }
 
@@ -70,6 +107,6 @@ void _extensor::draw_chess_()
 	glScalef(xs,ys,zs);
 	// punta
 		punta.draw_chess_();
-	this->draw_chess();
+	extend.draw_chess();
 	glPopMatrix();
 }

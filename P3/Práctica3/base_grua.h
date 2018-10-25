@@ -20,6 +20,27 @@ public:
 	void draw_line_();
 	void draw_fill_();
 	void draw_chess_();
+
+	void incrementar_desplazamiento_punta();
+	void decrementar_desplazamiento_punta();
+
+	void incrementar_inclinacion_extensor();
+	void decrementar_inclinacion_extensor();
+
+	void incrementar_inclinacion_brazo();
+	void decrementar_inclinacion_brazo();
+
+	void incrementar_rotacion_tronco();
+	void decrementar_rotacion_tronco();
+
+	void incrementar_velocidad_extensor();
+	void decrementar_velocidad_extensor();
+	
+	void incrementar_velocidad_brazo();
+	void decrementar_velocidad_brazo();
+
+	void incrementar_velocidad_tronco();
+	void decrementar_velocidad_tronco();
 };
 
 #endif

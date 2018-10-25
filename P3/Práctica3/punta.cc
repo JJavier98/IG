@@ -1,5 +1,8 @@
 
 #include "punta.h"
+#include <iostream>
+
+using namespace std;
 
 _punta::_punta()
 {
@@ -12,17 +15,58 @@ _punta::_punta()
 	cylinder.rotarArbitrario(1,0,0);
 	cylinder.getData(Vertices, Triangles);
 
-	xt = -0.825;
-	yt = 1.5;
+	xt = 0.0;
+	yt = 1.0;
 	zt = 0.0;
 
 	xr = 0.0;
 	yr = 0.0;
 	zr = 1.0;
 
-	xs = 0.6;
+	xs = 1.0;
 	ys = 0.5;
 	zs = 0.5;
+
+	desplazamiento = 0;
+}
+
+
+void _punta::incrementar_desplazamiento()
+{
+	/* 
+
+	// DISPARAR
+
+	if(desplazamiento < 5)
+		desplazamiento += 0.5;
+	else
+		desplazamiento = -0.9;
+	*/
+
+	// PUNTA
+
+	if(desplazamiento < 0)
+		desplazamiento += 0.05;
+}
+void _punta::decrementar_desplazamiento()
+{
+	/* 
+
+	// DISPARAR
+
+	if(desplazamiento - 0.5 > -0.9)
+		desplazamiento -= 0.5;
+	else
+		desplazamiento = -0.9;
+	*/
+
+	// PUNTA
+
+	if(desplazamiento - 0.05 > -1)
+		desplazamiento -= 0.05;
+	else
+		desplazamiento = -1;
+
 }
 
 void _punta::draw_point_()
@@ -30,10 +74,10 @@ void _punta::draw_point_()
 	glMatrixMode(GL_MODELVIEW);
 	// punta
 	glPushMatrix();
-	glTranslatef(xt, yt, zt);
-	glRotatef(angulo3,xr,yr,zr);
+	glTranslatef(xt, yt+desplazamiento, zt);
+	glRotatef(-90,xr,yr,zr);
 	glScalef(xs,ys,zs);
-	this->draw_point();
+	cylinder.draw_point();
 	glPopMatrix();
 }
 
@@ -42,10 +86,10 @@ void _punta::draw_line_()
 	glMatrixMode(GL_MODELVIEW);
 	// punta
 	glPushMatrix();
-	glTranslatef(xt, yt, zt);
-	glRotatef(angulo3,xr,yr,zr);
+	glTranslatef(xt, yt+desplazamiento, zt);
+	glRotatef(-90,xr,yr,zr);
 	glScalef(xs,ys,zs);
-	this->draw_line();
+	cylinder.draw_line();
 	glPopMatrix();
 }
 
@@ -54,10 +98,10 @@ void _punta::draw_fill_()
 	glMatrixMode(GL_MODELVIEW);
 	// punta
 	glPushMatrix();
-	glTranslatef(xt, yt, zt);
-	glRotatef(angulo3,xr,yr,zr);
+	glTranslatef(xt, yt+desplazamiento, zt);
+	glRotatef(-90,xr,yr,zr);
 	glScalef(xs,ys,zs);
-	this->draw_fill();
+	cylinder.draw_fill();
 	glPopMatrix();
 }
 
@@ -66,9 +110,9 @@ void _punta::draw_chess_()
 	glMatrixMode(GL_MODELVIEW);
 	// punta
 	glPushMatrix();
-	glTranslatef(xt, yt, zt);
-	glRotatef(angulo3,xr,yr,zr);
+	glTranslatef(xt, yt+desplazamiento, zt);
+	glRotatef(-90,xr,yr,zr);
 	glScalef(xs,ys,zs);
-	this->draw_chess();
+	cylinder.draw_chess();
 	glPopMatrix();
 }

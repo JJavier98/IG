@@ -16,6 +16,71 @@ _base::_base()
 	zs = 1.5;
 }
 
+void _base::incrementar_desplazamiento_punta()
+{
+	tronco.incrementar_desplazamiento_punta();
+}
+void _base::decrementar_desplazamiento_punta()
+{
+	tronco.decrementar_desplazamiento_punta();
+}
+
+
+void _base::incrementar_inclinacion_extensor()
+{
+	tronco.incrementar_inclinacion_extensor();
+}
+void _base::decrementar_inclinacion_extensor()
+{
+	tronco.decrementar_inclinacion_extensor();
+}
+
+void _base::incrementar_inclinacion_brazo()
+{
+	tronco.incrementar_inclinacion_brazo();
+}
+void _base::decrementar_inclinacion_brazo()
+{
+	tronco.decrementar_inclinacion_brazo();
+}
+
+void _base::incrementar_rotacion_tronco()
+{
+	tronco.incrementar_rotacion();
+}
+void _base::decrementar_rotacion_tronco()
+{
+	tronco.decrementar_rotacion();
+}
+
+void _base::incrementar_velocidad_extensor()
+{
+	tronco.incrementar_velocidad_extensor();
+}
+void _base::decrementar_velocidad_extensor()
+{
+	tronco.decrementar_velocidad_extensor();
+}
+
+void _base::incrementar_velocidad_brazo()
+{
+	tronco.incrementar_velocidad_brazo();
+}
+void _base::decrementar_velocidad_brazo()
+{
+	tronco.decrementar_velocidad_brazo();
+}
+
+void _base::incrementar_velocidad_tronco()
+{
+	tronco.incrementar_velocidad();
+}
+void _base::decrementar_velocidad_tronco()
+{
+	tronco.decrementar_velocidad();
+}
+
+
 void _base::draw_point_()
 {
 	// tronco
@@ -32,7 +97,7 @@ void _base::draw_point_()
 void _base::draw_line_()
 {
 	// tronco
-	tronco.draw_point_();
+	tronco.draw_line_();
 
 	glMatrixMode(GL_MODELVIEW);
 	// base
@@ -45,7 +110,7 @@ void _base::draw_line_()
 void _base::draw_fill_()
 {
 	// tronco
-	tronco.draw_point_();
+	tronco.draw_fill_();
 
 	glMatrixMode(GL_MODELVIEW);
 	// base
@@ -58,7 +123,7 @@ void _base::draw_fill_()
 void _base::draw_chess_()
 {
 	// tronco
-	tronco.draw_point_();
+	tronco.draw_chess_();
 
 	glMatrixMode(GL_MODELVIEW);
 	// base

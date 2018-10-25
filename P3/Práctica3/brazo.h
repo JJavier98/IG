@@ -16,7 +16,8 @@ private:
 	float xr, yr, zr;
 	float xs, ys, zs;
 
-	int angulo2 = 0;
+	int angulo2;
+	int velocidad;
 public:
   	_brazo();
 
@@ -24,6 +25,21 @@ public:
 	void draw_line_();
 	void draw_fill_();
 	void draw_chess_();
+
+	void incrementar_desplazamiento_punta();
+	void decrementar_desplazamiento_punta();
+
+	void incrementar_inclinacion_extensor();
+	void decrementar_inclinacion_extensor();
+
+	void incrementar_inclinacion();
+	void decrementar_inclinacion();
+
+	void incrementar_velocidad();
+	void decrementar_velocidad();
+
+	void incrementar_velocidad_extensor();
+	void decrementar_velocidad_extensor();
 };
 
 #endif

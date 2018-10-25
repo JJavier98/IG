@@ -14,7 +14,7 @@ private:
 	float xr, yr, zr;
 	float xs, ys, zs;
 
-	int angulo3 = 0;
+	float desplazamiento;
 public:
 	_punta();
 
@@ -22,6 +22,10 @@ public:
 	void draw_line_();
 	void draw_fill_();
 	void draw_chess_();
+
+	void incrementar_desplazamiento();
+	void decrementar_desplazamiento();
+
 };
 
 #endif
