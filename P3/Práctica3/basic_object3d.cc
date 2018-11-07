@@ -16,7 +16,9 @@
 
 void _basic_object3D::draw_point()
 {
+   GLfloat const red[3] = {1,0,0};
    glBegin(GL_POINTS);
+   glColor3fv(red);
    for (unsigned int i=0;i<Vertices.size();i++){
       glVertex3fv((GLfloat *) &Vertices[i]);
    }

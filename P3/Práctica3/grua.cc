@@ -117,15 +117,15 @@ void _grua::funcion_idle()
 		decrementar_rotacion_tronco();
 
 	// DISPARA
-	//incrementar_desplazamiento_punta();
+	incrementar_desplazamiento_punta();
 
 	// PUNTA
-	
+	/*
 	if(cambio1)
 		incrementar_desplazamiento_punta();
 	else
 		decrementar_desplazamiento_punta();
-	
+	*/
 	
 	glutPostRedisplay();
 }

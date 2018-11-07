@@ -33,24 +33,25 @@ _punta::_punta()
 
 void _punta::incrementar_desplazamiento()
 {
-	/* 
+	 
 
 	// DISPARAR
 
-	if(desplazamiento < 5)
+		if(desplazamiento < 5)
 		desplazamiento += 0.5;
 	else
 		desplazamiento = -0.9;
-	*/
+	
 
 	// PUNTA
 
-	if(desplazamiento < 0)
+	/*if(desplazamiento < 0)
 		desplazamiento += 0.05;
+		*/
 }
 void _punta::decrementar_desplazamiento()
 {
-	/* 
+	
 
 	// DISPARAR
 
@@ -58,15 +59,15 @@ void _punta::decrementar_desplazamiento()
 		desplazamiento -= 0.5;
 	else
 		desplazamiento = -0.9;
-	*/
+	
 
 	// PUNTA
 
-	if(desplazamiento - 0.05 > -1)
+	/*if(desplazamiento - 0.05 > -1)
 		desplazamiento -= 0.05;
 	else
 		desplazamiento = -1;
-
+*/
 }
 
 void _punta::draw_point_()
