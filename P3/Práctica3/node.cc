@@ -1,34 +1,118 @@
-#include "object3d.h"
+#include "node.h"
 #include <vector>
 
 using namespace _colors_ne;
 
-void _object3D::draw_line()
+
+void _node::add_hijo(_node hijo)
 {
-   GLfloat const purple[3] = {0,0,0};
-   glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-   glBegin(GL_TRIANGLES);
-   glColor3fv(purple);
-   for (unsigned int i=0;i<Triangles.size();i++){
-      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._0]);
-      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._1]);
-      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._2]);
-   }
-   glEnd();
+   hijos.push_back(hijo);
 }
 
-void _object3D::draw_fill()
+void _node::draw_point()
+{
+   GLfloat const red[3] = {1,0,0};
+
+   glMatrixMode(GL_MODELVIEW);
+   
+   glPushMatrix();
+   glTranslatef(xt, yt, zt);
+   glRotatef(angulo1,xr,yr,zr);
+   glScalef(xs,ys,zs);
+
+      glMatrixMode(GL_MODELVIEW);
+
+      glPushMatrix();
+      glTranslatef(xt, yt, zt);
+      glRotatef(angulo1,xr,yr,zr);
+      glScalef(xs,ys,zs);
+
+         glBegin(GL_POINTS);
+         glColor3fv(red);
+         for (unsigned int i=0;i<Vertices.size();i++){
+            glVertex3fv((GLfloat *) &Vertices[i]);
+         }
+         glEnd();
+
+      glPopMatrix();      
+      
+         for(int i = 0; i < hijos.size() ; ++i)
+            hijos[i].draw_point();
+      
+
+   glPopMatrix();
+
+}
+
+void _node::draw_line()
+{
+   GLfloat const purple[3] = {0,0,0};
+
+   glMatrixMode(GL_MODELVIEW);
+   
+   glPushMatrix();
+   glTranslatef(xt, yt, zt);
+   glRotatef(angulo1,xr,yr,zr);
+   glScalef(xs,ys,zs);
+
+      glMatrixMode(GL_MODELVIEW);
+      
+      glPushMatrix();
+      glTranslatef(xt, yt, zt);
+      glRotatef(angulo1,xr,yr,zr);
+      glScalef(xs,ys,zs);
+
+         glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+         glBegin(GL_TRIANGLES);
+         glColor3fv(purple);
+         for (unsigned int i=0;i<Triangles.size();i++){
+            glVertex3fv((GLfloat *) &Vertices[Triangles[i]._0]);
+            glVertex3fv((GLfloat *) &Vertices[Triangles[i]._1]);
+            glVertex3fv((GLfloat *) &Vertices[Triangles[i]._2]);
+         }
+         glEnd();
+
+      glPopMatrix();
+
+      for(int i = 0; i < hijos.size() ; ++i)
+         hijos[i].draw_line();
+   glPopMatrix();
+
+}
+
+void _node::draw_fill()
 {
    GLfloat const purple[3] = {0.5,0,1};
-   glPolygonMode(GL_FRONT/*_AND_BACK*/,GL_FILL);
-   glBegin(GL_TRIANGLES);
-   glColor3fv(purple);
-   for (unsigned int i=0;i<Triangles.size();i++){
-      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._0]);
-      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._1]);
-      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._2]);
-   }
-   glEnd();
+
+   glMatrixMode(GL_MODELVIEW);
+   
+   glPushMatrix();
+   glTranslatef(xt, yt, zt);
+   glRotatef(angulo1,xr,yr,zr);
+   glScalef(xs,ys,zs);
+
+      glMatrixMode(GL_MODELVIEW);
+      
+      glPushMatrix();
+      glTranslatef(xt, yt, zt);
+      glRotatef(angulo1,xr,yr,zr);
+      glScalef(xs,ys,zs);
+
+         glPolygonMode(GL_FRONT/*_AND_BACK*/,GL_FILL);
+         glBegin(GL_TRIANGLES);
+         glColor3fv(purple);
+         for (unsigned int i=0;i<Triangles.size();i++){
+            glVertex3fv((GLfloat *) &Vertices[Triangles[i]._0]);
+            glVertex3fv((GLfloat *) &Vertices[Triangles[i]._1]);
+            glVertex3fv((GLfloat *) &Vertices[Triangles[i]._2]);
+         }
+         glEnd();
+      glPopMatrix();
+   
+      for(int i = 0; i < hijos.size() ; ++i)
+         hijos[i].draw_fill();
+   glPopMatrix();
+
 }
 
 
@@ -38,8 +122,9 @@ void _object3D::draw_fill()
  *@returns
  */
 
-void _object3D::draw_chess()
+void _node::draw_chess()
 {
+
    GLfloat const red[3] = {1,0,0};
    GLfloat const green[3] = {0,1,0};
    GLfloat const blue[3] = {0,0,1};
@@ -49,33 +134,83 @@ void _object3D::draw_chess()
    GLfloat const orange[3] = {1,0.5,0};
    GLfloat const yellow[3] = {1,1,0};
 
-   glPolygonMode(GL_FRONT/*_AND_BACK*/,GL_FILL);
-   glBegin(GL_TRIANGLES);
-   for (unsigned int i=0;i<Triangles.size();i++){
-      if (i%2==0) glColor3fv(light_blue);
-      else glColor3fv(yellow);
-      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._0]);
-      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._1]);
-      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._2]);
-   }
-   glEnd();
+   glMatrixMode(GL_MODELVIEW);
+   
+   glPushMatrix();
+   glTranslatef(xt, yt, zt);
+   glRotatef(angulo1,xr,yr,zr);
+   glScalef(xs,ys,zs);
+
+      glMatrixMode(GL_MODELVIEW);
+      
+      glPushMatrix();
+      glTranslatef(xt, yt, zt);
+      glRotatef(angulo1,xr,yr,zr);
+      glScalef(xs,ys,zs);
+
+         glPolygonMode(GL_FRONT/*_AND_BACK*/,GL_FILL);
+         glBegin(GL_TRIANGLES);
+         for (unsigned int i=0;i<Triangles.size();i++){
+            if (i%2==0) glColor3fv(light_blue);
+            else glColor3fv(yellow);
+            glVertex3fv((GLfloat *) &Vertices[Triangles[i]._0]);
+            glVertex3fv((GLfloat *) &Vertices[Triangles[i]._1]);
+            glVertex3fv((GLfloat *) &Vertices[Triangles[i]._2]);
+         }
+         glEnd();
+      glPopMatrix();
+   
+      for(int i = 0; i < hijos.size() ; ++i)
+         hijos[i].draw_chess();
+   glPopMatrix();
 }
 
-_object3D::_object3D()
+_node::_node()
 {
+   xt = 0.0;
+   yt = 0.0;
+   zt = 0.0;
+
+   xr = 0.0;
+   yr = 0.0;
+   zr = 0.0;
+
+   xs = 1.0;
+   ys = 1.0;
+   zs = 1.0;
+
+   angulo1 = 0;
+   velocidad = 1;
 }
 
-_object3D& _object3D::operator = (const _object3D &p)
+_node& _node::operator = (const _node &p)
 {
    if(this!=&p)
    {
       Triangles = p.Triangles;
       Vertices = p.Vertices;
+
+      xt = p.xt;
+      yt = p.yt;
+      zt = p.zt;
+
+      xr = p.xr;
+      yr = p.yr;
+      zr = p.zr;
+
+      xs = p.xs;
+      ys = p.ys;
+      zs = p.zs;
+
+      angulo1 = p.angulo1;
+      velocidad = p.velocidad;
+
+      hijos = p.hijos;
    }
    return *this;
 }
 
-void _object3D::rotarArbitrario(float ux, float uy, float uz, bool triangulos, bool tapas, bool rotar_completo, float angulo)
+void _node::rotarArbitrario(float ux, float uy, float uz, bool triangulos, bool tapas, bool rotar_completo, float angulo)
 {
    // CREACION DE VERTICES
    vector<_vertex3ui> newTriangles = Triangles;

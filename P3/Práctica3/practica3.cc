@@ -15,6 +15,8 @@
 #include "sphere.h"
 #include "object3d.h"
 #include "grua.h"
+#include "cuenco.h"
+#include "toro.h"
 #include <math.h>
 
 using namespace _colors_ne;
@@ -29,7 +31,7 @@ const float DEFAULT_DISTANCE=2;
 const float ANGLE_STEP=1;
 
 typedef enum {MODE_DRAW_POINT,MODE_DRAW_LINE,MODE_DRAW_FILL,MODE_DRAW_CHESS} _mode_draw;
-typedef enum {OBJECT_TETRAHEDRON,OBJECT_CUBE,OBJECT_PLY_,OBJECT_CYLINDER,OBJECT_CONE,OBJECT_SPHERE,OBJECT_HIERARCHY} _object;
+typedef enum {OBJECT_TETRAHEDRON,OBJECT_CUBE,OBJECT_PLY_,OBJECT_CYLINDER,OBJECT_CONE,OBJECT_SPHERE,OBJECT_HIERARCHY,OBJECT_CUENCO,OBJECT_TORO} _object;
 bool animacion = false;
 
 // variables que definen la posicion de la camara en coordenadas polares
@@ -52,6 +54,8 @@ _cylinder Cylinder;
 _cone Cone;
 _sphere Sphere;
 _grua Grua;
+_cuenco Cuenco;
+_toro Toro;
 
 
 bool Draw_point=false;
@@ -138,6 +142,8 @@ void draw_objects()
             case OBJECT_CONE: Cone.draw_point();break;
             case OBJECT_SPHERE: Sphere.draw_point();break;
             case OBJECT_HIERARCHY: Grua.draw_point();break;
+            case OBJECT_CUENCO: Cuenco.draw_point();break;
+            case OBJECT_TORO: Toro.draw_point();break;
         default:break;
         }
     }
@@ -153,6 +159,8 @@ void draw_objects()
             case OBJECT_CONE: Cone.draw_line();break;
             case OBJECT_SPHERE: Sphere.draw_line();break;
             case OBJECT_HIERARCHY: Grua.draw_line();break;
+            case OBJECT_CUENCO: Cuenco.draw_line();break;
+            case OBJECT_TORO: Toro.draw_line();break;
         default:break;
         }
     }
@@ -167,6 +175,8 @@ void draw_objects()
             case OBJECT_CONE: Cone.draw_fill();break;
             case OBJECT_SPHERE: Sphere.draw_fill();break;
             case OBJECT_HIERARCHY: Grua.draw_fill();break;
+            case OBJECT_CUENCO: Cuenco.draw_fill();break;
+            case OBJECT_TORO: Toro.draw_fill();break;
         default:break;
         }
     }
@@ -180,6 +190,8 @@ void draw_objects()
             case OBJECT_CONE: Cone.draw_chess();break;
             case OBJECT_SPHERE: Sphere.draw_chess();break;
             case OBJECT_HIERARCHY: Grua.draw_chess();break;
+            case OBJECT_CUENCO: Cuenco.draw_chess();break;
+            case OBJECT_TORO: Toro.draw_chess();break;
 	   default:break;
       }
    }
@@ -255,6 +267,8 @@ void normal_keys(unsigned char Tecla1,int x,int y)
         case '5':Object=OBJECT_SPHERE;break;
         case '6':Object=OBJECT_PLY_;break;
         case '7':Object=OBJECT_HIERARCHY;break;
+        case '8':Object=OBJECT_CUENCO;break;
+        case '9':Object=OBJECT_TORO;break;
 
         case 'P':Draw_point=!Draw_point;break;
         case 'L':Draw_line=!Draw_line;break;

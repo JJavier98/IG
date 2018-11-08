@@ -7,7 +7,7 @@
 class _tronco
 {
 protected:
-	_paralel tronco;
+	
 	_brazo brazo;
 
 	float xt, yt, zt;
@@ -17,6 +17,7 @@ protected:
 	int angulo1;
 	int velocidad;
 public:
+	_paralel tronco;
 	_tronco();
 
 	void draw_point_();

@@ -52,7 +52,10 @@ default : $(TARGETS)
 
 # regla de dependencias
 #
-$(TARGETS) : basic_object3d.o object3d.o axis.o tetrahedron.o cube.o file_ply_stl.o objeto_ply.o practica3.o cylinder.o cone.o sphere.o base_grua.o tronco_grua.o brazo.o grua.o paralelepipedo.o extensor.o punta.o
+$(TARGETS) : basic_object3d.o object3d.o axis.o tetrahedron.o cube.o file_ply_stl.o \
+			 objeto_ply.o practica3.o cylinder.o cone.o sphere.o base_grua.o tronco_grua.o \
+			  brazo.o grua.o paralelepipedo.o extensor.o punta.o cuenco.o toro.o cuerpo_toro.o cabeza_toro.o piernas_toro.o \
+			  node.o
 
 practica3.o: practica3.cc
 
@@ -89,6 +92,18 @@ paralelepipedo.o: paralelepipedo.cc paralelepipedo.h
 extensor.o: extensor.cc extensor.h
 
 punta.o: punta.cc punta.h
+
+cuenco.o: cuenco.cc cuenco.h
+
+toro.o: toro.cc toro.h
+
+cuerpo_toro.o: cuerpo_toro.cc cuerpo_toro.h
+
+cabeza_toro.o: cabeza_toro.cc cabeza_toro.h
+
+piernas_toro.o: piernas_toro.cc piernas_toro.h
+
+node.o: node.cc node.h
 
 
 # regla para limpiar
