@@ -1,7 +1,9 @@
 #include "node.h"
 #include <vector>
+#include <iostream>
 
 using namespace _colors_ne;
+using namespace std;
 
 
 void _node::add_hijo(_node hijo)
@@ -9,36 +11,212 @@ void _node::add_hijo(_node hijo)
    hijos.push_back(hijo);
 }
 
+void _node::load(const vector<_vertex3f> & V, const vector<_vertex3ui> & T)
+{
+   Vertices = V;
+   Triangles = T;
+}
+
+
+void _node::incrementar_inclinacion()
+{
+   if(angulo1 + velocidad < limiteInclinacion1)
+      angulo1 += velocidad;
+   else
+      angulo1 = limiteInclinacion1-velocidad;
+
+}
+void _node::decrementar_inclinacion()
+{
+   if(angulo1 - velocidad > limiteInclinacion2)
+      angulo1 -= velocidad;
+   else
+      angulo1 = limiteInclinacion2-velocidad;
+
+}
+
+void _node::incrementar_velocidad()
+{
+   if(velocidad < 10)
+      velocidad += 1;
+}
+void _node::decrementar_velocidad()
+{
+   if(velocidad > 1)
+      velocidad -= 1;
+}
+
+void _node::incrementar_desplazamiento_x()
+{
+   if(desplazamiento_x < limiteDesplazamientoX_1)
+      desplazamiento_x += 0.2;
+   else
+      desplazamiento_x = limiteDesplazamientoX_2;
+   
+
+   // cambiar en clase correspondiente limiteDesplazamientoX_1 a otro valor para que no dispare
+   /*if(desplazamiento_x < limiteDesplazamientoX_1)
+      desplazamiento_x += 0.05;
+      */
+}
+void _node::decrementar_desplazamiento_x()
+{
+   if(desplazamiento_x - 0.2 > limiteDesplazamientoX_2)
+      desplazamiento_x -= 0.2;
+   else
+      desplazamiento_x = limiteDesplazamientoX_2;
+   
+
+   /*if(desplazamiento_x - 0.05 > limiteDesplazamientoX_2)
+      desplazamiento_x -= 0.05;
+   else
+      desplazamiento_x = limiteDesplazamientoX_2;
+   */
+}
+
+void _node::incrementar_desplazamiento_y()
+{
+   if(desplazamiento_y < limiteDesplazamientoY_1)
+      desplazamiento_y += 0.2;
+   else
+      desplazamiento_y = limiteDesplazamientoY_2;
+   
+
+   // cambiar en clase correspondiente limiteDesplazamientoY_1 a otro valor para que no dispare
+   /*if(desplazamiento_y < limiteDesplazamientoY_1)
+      desplazamiento_y += 0.05;
+      */
+}
+void _node::decrementar_desplazamiento_y()
+{
+   if(desplazamiento_y - 0.2 > limiteDesplazamientoY_2)
+      desplazamiento_y -= 0.2;
+   else
+      desplazamiento_y = limiteDesplazamientoY_2;
+   
+
+   /*if(desplazamiento_y - 0.05 > limiteDesplazamientoY_2)
+      desplazamiento_y -= 0.05;
+   else
+      desplazamiento_y = limiteDesplazamientoY_2;
+   */
+}
+
+void _node::incrementar_desplazamiento_z()
+{
+   if(desplazamiento_z < limiteDesplazamientoZ_1)
+      desplazamiento_z += 0.2;
+   else
+      desplazamiento_z = limiteDesplazamientoZ_2;
+   
+
+   // cambiar en clase correspondiente limiteDesplazamientoZ_1 a otro valor para que no dispare
+   /*if(desplazamiento_z < limiteDesplazamientoZ_1)
+      desplazamiento_z += 0.05;
+      */
+}
+void _node::decrementar_desplazamiento_z()
+{
+   if(desplazamiento_z - 0.2 > limiteDesplazamientoZ_2)
+      desplazamiento_z -= 0.2;
+   else
+      desplazamiento_z = limiteDesplazamientoZ_2;
+   
+
+   /*if(desplazamiento_z - 0.05 > limiteDesplazamientoZ_2)
+      desplazamiento_z -= 0.05;
+   else
+      desplazamiento_z = limiteDesplazamientoZ_2;
+   */
+}
+
+void _node::incrementar_rotacion()
+{
+   angulo1 += velocidad;
+}
+void _node::decrementar_rotacion()
+{
+   angulo1 -= velocidad;
+}
+
+void _node::draw_point_obj()
+{
+   GLfloat const red[3] = {1,0,0};
+   glBegin(GL_POINTS);
+   glColor3fv(red);
+   for (unsigned int i=0;i<Vertices.size();i++){
+      glVertex3fv((GLfloat *) &Vertices[i]);
+   }
+   glEnd();
+}
+
+void _node::draw_line_obj()
+{
+   GLfloat const purple[3] = {0,0,0};
+   glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+   glBegin(GL_TRIANGLES);
+   glColor3fv(purple);
+   for (unsigned int i=0;i<Triangles.size();i++){
+      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._0]);
+      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._1]);
+      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._2]);
+   }
+   glEnd();
+}
+
+void _node::draw_fill_obj()
+{
+   GLfloat const purple[3] = {0.5,0,1};
+   glPolygonMode(GL_FRONT/*_AND_BACK*/,GL_FILL);
+   glBegin(GL_TRIANGLES);
+   glColor3fv(purple);
+   for (unsigned int i=0;i<Triangles.size();i++){
+      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._0]);
+      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._1]);
+      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._2]);
+   }
+   glEnd();
+}
+
+void _node::draw_chess_obj()
+{
+   GLfloat const red[3] = {1,0,0};
+   GLfloat const green[3] = {0,1,0};
+   GLfloat const blue[3] = {0,0,1};
+   GLfloat const light_blue[3] = {0,0.4,1};
+   GLfloat const purple[3] = {0.5,0,1};
+   GLfloat const pink[3] = {1,0,1};
+   GLfloat const orange[3] = {1,0.5,0};
+   GLfloat const yellow[3] = {1,1,0};
+
+   glPolygonMode(GL_FRONT/*_AND_BACK*/,GL_FILL);
+   glBegin(GL_TRIANGLES);
+   for (unsigned int i=0;i<Triangles.size();i++){
+      if (i%2==0) glColor3fv(light_blue);
+      else glColor3fv(yellow);
+      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._0]);
+      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._1]);
+      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._2]);
+   }
+   glEnd();
+}
+
 void _node::draw_point()
 {
    GLfloat const red[3] = {1,0,0};
-
    glMatrixMode(GL_MODELVIEW);
    
    glPushMatrix();
-   glTranslatef(xt, yt, zt);
-   glRotatef(angulo1,xr,yr,zr);
+   glTranslatef(xt+desplazamiento_x, yt+desplazamiento_y, zt+desplazamiento_z);
+   glRotatef(angulo1+velocidad,xr,yr,zr);
    glScalef(xs,ys,zs);
 
-      glMatrixMode(GL_MODELVIEW);
-
-      glPushMatrix();
-      glTranslatef(xt, yt, zt);
-      glRotatef(angulo1,xr,yr,zr);
-      glScalef(xs,ys,zs);
-
-         glBegin(GL_POINTS);
-         glColor3fv(red);
-         for (unsigned int i=0;i<Vertices.size();i++){
-            glVertex3fv((GLfloat *) &Vertices[i]);
-         }
-         glEnd();
-
-      glPopMatrix();      
+      draw_point_obj();  
       
-         for(int i = 0; i < hijos.size() ; ++i)
-            hijos[i].draw_point();
-      
+      for(int i = 0; i < hijos.size() ; ++i)
+      {
+         hijos[i].draw_point();
+      }
 
    glPopMatrix();
 
@@ -47,67 +225,33 @@ void _node::draw_point()
 void _node::draw_line()
 {
    GLfloat const purple[3] = {0,0,0};
-
    glMatrixMode(GL_MODELVIEW);
    
    glPushMatrix();
-   glTranslatef(xt, yt, zt);
-   glRotatef(angulo1,xr,yr,zr);
+   glTranslatef(xt+desplazamiento_x, yt+desplazamiento_y, zt+desplazamiento_z);
+   glRotatef(angulo1+velocidad,xr,yr,zr);
    glScalef(xs,ys,zs);
 
-      glMatrixMode(GL_MODELVIEW);
-      
-      glPushMatrix();
-      glTranslatef(xt, yt, zt);
-      glRotatef(angulo1,xr,yr,zr);
-      glScalef(xs,ys,zs);
-
-         glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-         glBegin(GL_TRIANGLES);
-         glColor3fv(purple);
-         for (unsigned int i=0;i<Triangles.size();i++){
-            glVertex3fv((GLfloat *) &Vertices[Triangles[i]._0]);
-            glVertex3fv((GLfloat *) &Vertices[Triangles[i]._1]);
-            glVertex3fv((GLfloat *) &Vertices[Triangles[i]._2]);
-         }
-         glEnd();
-
-      glPopMatrix();
+      draw_line_obj();
 
       for(int i = 0; i < hijos.size() ; ++i)
          hijos[i].draw_line();
    glPopMatrix();
+
 
 }
 
 void _node::draw_fill()
 {
    GLfloat const purple[3] = {0.5,0,1};
-
    glMatrixMode(GL_MODELVIEW);
    
    glPushMatrix();
-   glTranslatef(xt, yt, zt);
-   glRotatef(angulo1,xr,yr,zr);
+   glTranslatef(xt+desplazamiento_x, yt+desplazamiento_y, zt+desplazamiento_z);
+   glRotatef(angulo1+velocidad,xr,yr,zr);
    glScalef(xs,ys,zs);
 
-      glMatrixMode(GL_MODELVIEW);
-      
-      glPushMatrix();
-      glTranslatef(xt, yt, zt);
-      glRotatef(angulo1,xr,yr,zr);
-      glScalef(xs,ys,zs);
-
-         glPolygonMode(GL_FRONT/*_AND_BACK*/,GL_FILL);
-         glBegin(GL_TRIANGLES);
-         glColor3fv(purple);
-         for (unsigned int i=0;i<Triangles.size();i++){
-            glVertex3fv((GLfloat *) &Vertices[Triangles[i]._0]);
-            glVertex3fv((GLfloat *) &Vertices[Triangles[i]._1]);
-            glVertex3fv((GLfloat *) &Vertices[Triangles[i]._2]);
-         }
-         glEnd();
-      glPopMatrix();
+      draw_fill_obj();
    
       for(int i = 0; i < hijos.size() ; ++i)
          hijos[i].draw_fill();
@@ -115,16 +259,8 @@ void _node::draw_fill()
 
 }
 
-
-/**
- *
- *@param
- *@returns
- */
-
 void _node::draw_chess()
 {
-
    GLfloat const red[3] = {1,0,0};
    GLfloat const green[3] = {0,1,0};
    GLfloat const blue[3] = {0,0,1};
@@ -137,29 +273,12 @@ void _node::draw_chess()
    glMatrixMode(GL_MODELVIEW);
    
    glPushMatrix();
-   glTranslatef(xt, yt, zt);
-   glRotatef(angulo1,xr,yr,zr);
+   glTranslatef(xt+desplazamiento_x, yt+desplazamiento_y, zt+desplazamiento_z);
+   glRotatef(angulo1+velocidad,xr,yr,zr);
    glScalef(xs,ys,zs);
 
-      glMatrixMode(GL_MODELVIEW);
-      
-      glPushMatrix();
-      glTranslatef(xt, yt, zt);
-      glRotatef(angulo1,xr,yr,zr);
-      glScalef(xs,ys,zs);
+         draw_chess_obj();
 
-         glPolygonMode(GL_FRONT/*_AND_BACK*/,GL_FILL);
-         glBegin(GL_TRIANGLES);
-         for (unsigned int i=0;i<Triangles.size();i++){
-            if (i%2==0) glColor3fv(light_blue);
-            else glColor3fv(yellow);
-            glVertex3fv((GLfloat *) &Vertices[Triangles[i]._0]);
-            glVertex3fv((GLfloat *) &Vertices[Triangles[i]._1]);
-            glVertex3fv((GLfloat *) &Vertices[Triangles[i]._2]);
-         }
-         glEnd();
-      glPopMatrix();
-   
       for(int i = 0; i < hijos.size() ; ++i)
          hijos[i].draw_chess();
    glPopMatrix();
@@ -213,7 +332,6 @@ _node& _node::operator = (const _node &p)
 void _node::rotarArbitrario(float ux, float uy, float uz, bool triangulos, bool tapas, bool rotar_completo, float angulo)
 {
    // CREACION DE VERTICES
-   vector<_vertex3ui> newTriangles = Triangles;
    vector<_vertex3f> newVertices;
 
    int iteraciones = 1;
@@ -299,15 +417,11 @@ void _node::rotarArbitrario(float ux, float uy, float uz, bool triangulos, bool 
             {
                Triangles.push_back(_vertex3ui(a+1,a,a+vertices_ini));
                Triangles.push_back(_vertex3ui(a+vertices_ini+1,a+1,a+vertices_ini));
-               newTriangles.push_back(_vertex3ui(a+1,a,a+vertices_ini));
-               newTriangles.push_back(_vertex3ui(a+vertices_ini+1,a+1,a+vertices_ini));
             }
             else
             {
                Triangles.push_back(_vertex3ui(a,a+1,a+vertices_ini));
                Triangles.push_back(_vertex3ui(a+1,a+vertices_ini+1,a+vertices_ini));
-               newTriangles.push_back(_vertex3ui(a,a+1,a+vertices_ini));
-               newTriangles.push_back(_vertex3ui(a+1,a+vertices_ini+1,a+vertices_ini));
             }
 
             ++a;
@@ -321,61 +435,76 @@ void _node::rotarArbitrario(float ux, float uy, float uz, bool triangulos, bool 
    // CREACION DE TAPAS
    if(tapas)
    {
-      int a = 0;
-      float independiente = -(ux*(-primerVertice.x) + uy*(-primerVertice.y) + uz*(-primerVertice.z));
-      float divisor = ux*ux + uy*uy + uz*uz;
-      float parametro = independiente/divisor;
+      bool primeraTapa = true;
+      bool segundaTapa = true;
+      if (primerVertice.x/ux == primerVertice.y/uy and primerVertice.y/uy == primerVertice.z/uz)
+         primeraTapa = false;
+      if (ultimoVertice.x/ux == ultimoVertice.y/uy and ultimoVertice.y/uy == ultimoVertice.z/uz)
+         segundaTapa = false;
 
-      _vertex3f tapa1;
-      tapa1.x = ux*parametro;
-      tapa1.y = uy*parametro;
-      tapa1.z = uz*parametro;
+      if(primeraTapa)
+      {        
+         int a = 0;
+         float independiente = -(ux*(-primerVertice.x) + uy*(-primerVertice.y) + uz*(-primerVertice.z));
+         float divisor = ux*ux + uy*uy + uz*uz;
+         float parametro = independiente/divisor;
 
-      Vertices.push_back(tapa1);
-      newVertices.push_back(tapa1);
+         _vertex3f tapa1;
+         tapa1.x = ux*parametro;
+         tapa1.y = uy*parametro;
+         tapa1.z = uz*parametro;
 
-      independiente = -(ux*(-ultimoVertice.x) + uy*(-ultimoVertice.y) + uz*(-ultimoVertice.z));
-      divisor = ux*ux + uy*uy + uz*uz;
-      parametro = independiente/divisor;
-
-      _vertex3f tapa2;
-      tapa2.x = ux*parametro;
-      tapa2.y = uy*parametro;
-      tapa2.z = uz*parametro;
-
-      Vertices.push_back(tapa2);
-      newVertices.push_back(tapa2);
-
-      a = 0;
-      for (int i = 0; i < repeticiones_necesarias; ++i)
-      {
-         if(primerVertice.y < ultimoVertice.y)
-         {
-            Triangles.push_back(_vertex3ui(Vertices.size()-2,a+vertices_ini,a));
-            newTriangles.push_back(_vertex3ui(Vertices.size()-2,a+vertices_ini,a));
-         }
-         else
-         {
-            Triangles.push_back(_vertex3ui(Vertices.size()-2,a,a+vertices_ini));
-            newTriangles.push_back(_vertex3ui(Vertices.size()-2,a,a+vertices_ini));
-         }
-         a+=vertices_ini;
+         Vertices.push_back(tapa1);
+         newVertices.push_back(tapa1);
       }
 
-      int b = vertices_ini-1;
-      for (int i = 0; i < repeticiones_necesarias; ++i)
+      if(segundaTapa)
       {
-         if(primerVertice.y < ultimoVertice.y)
+         float independiente = -(ux*(-ultimoVertice.x) + uy*(-ultimoVertice.y) + uz*(-ultimoVertice.z));
+         float divisor = ux*ux + uy*uy + uz*uz;
+         float parametro = independiente/divisor;
+
+         _vertex3f tapa2;
+         tapa2.x = ux*parametro;
+         tapa2.y = uy*parametro;
+         tapa2.z = uz*parametro;
+
+         Vertices.push_back(tapa2);
+         newVertices.push_back(tapa2);
+      }
+
+      if(primeraTapa)
+      {
+         int a = 0;
+         for (int i = 0; i < repeticiones_necesarias; ++i)
          {
-            Triangles.push_back(_vertex3ui(Vertices.size()-1,b,b+vertices_ini));
-            newTriangles.push_back(_vertex3ui(Vertices.size()-1,b,b+vertices_ini));
+            if(primerVertice.y < ultimoVertice.y)
+            {
+               Triangles.push_back(_vertex3ui(Vertices.size()-2,a+vertices_ini,a));
+            }
+            else
+            {
+               Triangles.push_back(_vertex3ui(Vertices.size()-2,a,a+vertices_ini));
+            }
+            a+=vertices_ini;
          }
-         else
+      }
+
+      if(segundaTapa)
+      {
+         int b = vertices_ini-1;
+         for (int i = 0; i < repeticiones_necesarias; ++i)
          {
-            Triangles.push_back(_vertex3ui(b,Vertices.size()-1,b+vertices_ini));
-            newTriangles.push_back(_vertex3ui(b,Vertices.size()-1,b+vertices_ini));
+            if(primerVertice.y < ultimoVertice.y)
+            {
+               Triangles.push_back(_vertex3ui(Vertices.size()-1,b,b+vertices_ini));
+            }
+            else
+            {
+               Triangles.push_back(_vertex3ui(b,Vertices.size()-1,b+vertices_ini));
+            }
+            b+=vertices_ini;
          }
-         b+=vertices_ini;
       }
    }
 

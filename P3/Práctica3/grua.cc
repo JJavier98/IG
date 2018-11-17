@@ -8,70 +8,71 @@ using namespace std;
 
 _grua::_grua()
 {
-
+	_base base;
+	add_hijo(base);
 }
 
 void _grua::incrementar_desplazamiento_punta()
 {
-	base.incrementar_desplazamiento_punta();
+	hijos[0].hijos[0].hijos[0].hijos[0].hijos[0].incrementar_desplazamiento_y();
 }
 void _grua::decrementar_desplazamiento_punta()
 {
-	base.decrementar_desplazamiento_punta();
+	hijos[0].hijos[0].hijos[0].hijos[0].hijos[0].decrementar_desplazamiento_y();
 }
 
 void _grua::incrementar_inclinacion_extensor()
 {
-	base.incrementar_inclinacion_extensor();
+	hijos[0].hijos[0].hijos[0].hijos[0].incrementar_inclinacion();
 }
 void _grua::decrementar_inclinacion_extensor()
 {
-	base.decrementar_inclinacion_extensor();
+	hijos[0].hijos[0].hijos[0].hijos[0].decrementar_inclinacion();
 }
 
 void _grua::incrementar_inclinacion_brazo()
 {
-	base.incrementar_inclinacion_brazo();
+	hijos[0].hijos[0].hijos[0].incrementar_inclinacion();
 }
 void _grua::decrementar_inclinacion_brazo()
 {
-	base.decrementar_inclinacion_brazo();
+	hijos[0].hijos[0].hijos[0].decrementar_inclinacion();
 }
 
 void _grua::incrementar_rotacion_tronco()
 {
-	base.incrementar_rotacion_tronco();
+	hijos[0].hijos[0].incrementar_rotacion();
 }
 void _grua::decrementar_rotacion_tronco()
 {
-	base.decrementar_rotacion_tronco();
+	hijos[0].hijos[0].decrementar_rotacion();
 }
 
 void _grua::incrementar_velocidad_extensor()
 {
-	base.incrementar_velocidad_extensor();
+	hijos[0].hijos[0].hijos[0].hijos[0].incrementar_velocidad();
 }
 void _grua::decrementar_velocidad_extensor()
 {
-	base.decrementar_velocidad_extensor();
+	hijos[0].hijos[0].hijos[0].hijos[0].decrementar_velocidad();
 }
 
 void _grua::incrementar_velocidad_brazo()
 {
-	base.incrementar_velocidad_brazo();
+	hijos[0].hijos[0].hijos[0].incrementar_velocidad();
 }
 void _grua::decrementar_velocidad_brazo()
 {
-	base.decrementar_velocidad_brazo();
+	hijos[0].hijos[0].hijos[0].decrementar_velocidad();
 }
 
 void _grua::incrementar_velocidad_tronco()
 {
-	base.incrementar_velocidad_tronco();
+	hijos[0].hijos[0].incrementar_velocidad();
 }
 void _grua::decrementar_velocidad_tronco()
 {
-	base.decrementar_velocidad_tronco();
+	hijos[0].hijos[0].decrementar_velocidad();
 }
 
 void _grua::funcion_idle()
@@ -120,32 +121,12 @@ void _grua::funcion_idle()
 	incrementar_desplazamiento_punta();
 
 	// PUNTA
-	/*
+	
 	if(cambio1)
 		incrementar_desplazamiento_punta();
 	else
 		decrementar_desplazamiento_punta();
-	*/
+	
 	
 	glutPostRedisplay();
-}
-
-void _grua::draw_point()
-{
-	base.draw_point_();
-}
-
-void _grua::draw_line()
-{
-	base.draw_line_();
-}
-
-void _grua::draw_fill()
-{
-	base.draw_fill_();
-}
-
-void _grua::draw_chess()
-{
-	base.draw_chess_();
 }

@@ -52,8 +52,8 @@ default : $(TARGETS)
 
 # regla de dependencias
 #
-$(TARGETS) : basic_object3d.o object3d.o axis.o tetrahedron.o cube.o file_ply_stl.o \
-			 objeto_ply.o practica3.o cylinder.o cone.o sphere.o base_grua.o tronco_grua.o \
+$(TARGETS) : axis.o tetrahedron.o cube.o file_ply_stl.o \
+			 practica3.o cylinder.o cone.o sphere.o base_grua.o tronco_grua.o \
 			  brazo.o grua.o paralelepipedo.o extensor.o punta.o cuenco.o toro.o cuerpo_toro.o cabeza_toro.o piernas_toro.o \
 			  node.o
 
@@ -61,9 +61,9 @@ practica3.o: practica3.cc
 
 file_ply_stl.o: file_ply_stl.cc file_ply_stl.h
 
-basic_object3d.o: basic_object3d.cc basic_object3d.h
+#basic_object3d.o: basic_object3d.cc basic_object3d.h
 
-object3d.o: object3d.cc object3d.h
+#object3d.o: object3d.cc object3d.h
 
 axis.o: basic_object3d.o axis.cc axis.h
 
@@ -71,7 +71,7 @@ tetrahedron.o: tetrahedron.cc tetrahedron.h
 
 cube.o: cube.cc cube.h
 
-objeto_ply.o: objeto_ply.cc objeto_ply.h
+#objeto_ply.o: objeto_ply.cc objeto_ply.h
 
 cylinder.o: cylinder.cc cylinder.h
 

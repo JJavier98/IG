@@ -86,6 +86,7 @@ Type 			dot_product(const _vertex2<Type> &Vertex1)
 										{return(x*Vertex1.x+y*Vertex1.y);};
 bool			operator==(const _vertex2<Type> &Vertex1);
 bool			operator!=(const _vertex2<Type> &Vertex1);
+bool			operator<(const _vertex2<Type> &Vertex1);
 
 _vertex2 	&normalize();
 double		module(){return (sqrt(x*x+y*y));};
@@ -160,6 +161,7 @@ bool			operator==(const _vertex2<Type> &Vertex1);
 bool			operator!=(const _vertex3<Type> &Vertex1);
 bool			operator!=(const _vertex2<Type> &Vertex1);
 bool			equal_coordinates(int Num_coordinates1);
+bool			operator<(const _vertex3<Type> &Vertex1);
 
 _vertex3 	&normalize();
 double		module(){return (sqrt(x*x+y*y+z*z));};
@@ -239,6 +241,7 @@ _vertex4 	operator/(Type Value);
 _vertex4 	&operator/=(Type Value);
 bool			operator==(const _vertex4<Type> &Vertex1);
 bool			operator!=(const _vertex4<Type> &Vertex1);
+bool			operator<(const _vertex4<Type> &Vertex1);
 
 
 _vertex4 	&project();
@@ -444,6 +447,55 @@ _vertex2<Type>::operator()(Type *Vertices1)
 x=Vertices1[0];
 y=Vertices1[1];
 return(*this);
+}
+
+
+//*************************************************************************
+// COMPARADORES - EDITADO
+//*************************************************************************
+
+template <class Type> bool
+_vertex2<Type>::operator<(const _vertex2<Type> &Vertex1)
+{
+	if(x < Vertex1.x)
+		return  true;
+	if(y < Vertex1.y)
+		return true;
+	return false;
+}
+
+//*************************************************************************
+// COMPARADORES - EDITADO
+//*************************************************************************
+
+template <class Type> bool
+_vertex3<Type>::operator<(const _vertex3<Type> &Vertex1)
+{
+	if(x < Vertex1.x)
+		return  true;
+	if(y < Vertex1.y)
+		return true;
+	if(z < Vertex1.z)
+		return true;
+	return false;
+}
+
+//*************************************************************************
+// COMPARADORES - EDITADO
+//*************************************************************************
+
+template <class Type> bool
+_vertex4<Type>::operator<(const _vertex4<Type> &Vertex1)
+{
+	if(x < Vertex1.x)
+		return  true;
+	if(y < Vertex1.y)
+		return true;
+	if(z < Vertex1.z)
+		return true;
+	if(w < Vertex1.w)
+		return true;
+	return false;
 }
 
 //*************************************************************************

@@ -4,16 +4,15 @@
 #include "stdio.h"
 #include <ctype.h>
 #include <file_ply_stl.h>
+#include <vector>
 
 #include "colors.h"
 #include "axis.h"
 #include "tetrahedron.h"
 #include "cube.h"
-#include "objeto_ply.h"
 #include "cylinder.h"
 #include "cone.h"
 #include "sphere.h"
-#include "object3d.h"
 #include "grua.h"
 #include "cuenco.h"
 #include "toro.h"
@@ -30,9 +29,15 @@ const float BACK_PLANE_PERSPECTIVE=1000;
 const float DEFAULT_DISTANCE=2;
 const float ANGLE_STEP=1;
 
+      float ux, uy, uz;
+
 typedef enum {MODE_DRAW_POINT,MODE_DRAW_LINE,MODE_DRAW_FILL,MODE_DRAW_CHESS} _mode_draw;
 typedef enum {OBJECT_TETRAHEDRON,OBJECT_CUBE,OBJECT_PLY_,OBJECT_CYLINDER,OBJECT_CONE,OBJECT_SPHERE,OBJECT_HIERARCHY,OBJECT_CUENCO,OBJECT_TORO} _object;
 bool animacion = false;
+bool cambioR = false;
+bool rotar = true;
+vector<_vertex3f> inicialPLYv;
+vector<_vertex3ui> inicialPLYt;
 
 // variables que definen la posicion de la camara en coordenadas polares
 GLfloat Observer_angle_x=0;
@@ -49,7 +54,7 @@ int UI_window_pos_x=50,UI_window_pos_y=50,UI_window_width=800,UI_window_height=8
 _axis Axis;
 _tetrahedron Tetrahedron;
 _cube Cube;
-_objectPLY ObjPLY;
+_node ObjPLY;
 _cylinder Cylinder;
 _cone Cone;
 _sphere Sphere;
@@ -256,6 +261,22 @@ void cambiarAnimacion()
     glutIdleFunc(nullptr);
 }
 
+void funcionPLY()
+{
+  if(rotar)
+  {  
+    cambioR = !cambioR;
+    if(cambioR)
+    {
+      ObjPLY.rotarArbitrario(ux,uy,uz);
+    }
+    else
+    {
+      ObjPLY.load(inicialPLYv, inicialPLYt);
+    }
+  }
+}
+
 // CAMBIAR PLY
 void normal_keys(unsigned char Tecla1,int x,int y)
 {
@@ -274,6 +295,7 @@ void normal_keys(unsigned char Tecla1,int x,int y)
         case 'L':Draw_line=!Draw_line;break;
         case 'F':Draw_fill=!Draw_fill;break;
         case 'C':Draw_chess=!Draw_chess;break;
+        case 'M':funcionPLY();break;
 
         case 'Q':Grua.incrementar_desplazamiento_punta();break;
         case 'W':Grua.decrementar_desplazamiento_punta();break;
@@ -367,12 +389,12 @@ int main(int argc, char **argv)
       std::cout << "Archivo abierto con éxito" << std::endl;
 
 			File_ply.read(Vertices,Triangles);
+      inicialPLYv = Vertices;
+      inicialPLYt = Triangles;
 
 			ObjPLY.load(Vertices, Triangles);
 
-      float ux, uy, uz;
       int selec;
-      bool rotar;
 
       std::cout << "No rotar <0>, Rotar eje X <1>, Rotar eje Y <2>, Rotar eje Z <3>, Rotar vector arbitrario <4>:" << std::endl;
 
@@ -389,17 +411,14 @@ int main(int argc, char **argv)
         case 1:
           ux = 1;
           uy = uz = 0;
-          rotar = true;
           break;
         case 2:
           ux = uz = 0;
           uy = 1;
-          rotar = true;
           break;
         case 3:
           ux = uy = 0;
           uz = 1;
-          rotar = true;
           break;
         case 4:
           std::cout << "Introduce Ux:" << std::endl;
@@ -413,11 +432,8 @@ int main(int argc, char **argv)
           std::cout << "Introduce Uz:" << std::endl;
 
           std::cin >> uz;
-          rotar = true;
           break;
       }
-      if(rotar)
-        ObjPLY.rotarArbitrario(ux,uy,uz);
 		}
 		else
 			std::cout << "No se ha podido abrir el archivo" << std::endl;

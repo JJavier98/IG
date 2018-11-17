@@ -6,14 +6,13 @@
 #include "extensor.h"
 #include <chrono>
 #include <cmath>
+#include "node.h"
 
 using std::chrono::system_clock;
 
-class _grua
+class _grua:public _node
 {
 protected:
-	_base base;
-
 	system_clock::time_point momento1 = system_clock::now(),
 							 momento2 = system_clock::now(),
 							 momento3 = system_clock::now();
@@ -24,11 +23,6 @@ protected:
 		 cambio3 = false;
 public:
 	_grua();
-
-	void draw_point();
-	void draw_line();
-	void draw_fill();
-	void draw_chess();
 
 	void incrementar_desplazamiento_punta();
 	void decrementar_desplazamiento_punta();
