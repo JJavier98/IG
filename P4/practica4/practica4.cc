@@ -38,7 +38,7 @@ const float ANGLE_STEP=1;
 
 typedef enum {MODE_DRAW_POINT,MODE_DRAW_LINE,MODE_DRAW_FILL,MODE_DRAW_CHESS} _mode_draw;
 typedef enum {OBJECT_TETRAHEDRON,OBJECT_CUBE,OBJECT_CONE,OBJECT_CYLINDER,OBJECT_SPHERE,OBJECT_PLY,OBJECT_HIERARCHICAL,OBJECT_CHESS_BOARD} _object;
-  typedef enum {MODE_RENDERING_SOLID,MODE_RENDERING_SOLID_CHESS, MODE_RENDERING_ILLUMINATION_FLAT_SHADING, MODE_RENDERING_ILLUMINATION_SMOOTH_SHADING, MODE_RENDERING_TEXTURE, MODE_RENDERING_TEXTURE_ILLUMINATION_FLAT_SHADING, MODE_RENDERING_TEXTURE_ILLUMINATION_SMOOTH_SHADING} _mode_rendering;
+typedef enum {MODE_RENDERING_SOLID,MODE_RENDERING_SOLID_CHESS, MODE_RENDERING_ILLUMINATION_FLAT_SHADING, MODE_RENDERING_ILLUMINATION_SMOOTH_SHADING, MODE_RENDERING_TEXTURE, MODE_RENDERING_TEXTURE_ILLUMINATION_FLAT_SHADING, MODE_RENDERING_TEXTURE_ILLUMINATION_SMOOTH_SHADING} _mode_rendering;
 
 // variables que definen la posicion de la camara en coordenadas polares
 GLfloat Observer_angle_x=0;
@@ -253,8 +253,8 @@ void draw_objects()
 	    glEnable(GL_LIGHTING);
 	    switch (Object){
 	       case OBJECT_TETRAHEDRON:Tetrahedron.draw_illumination_flat_shading();break;
-		  //        case OBJECT_CONE:Cone.draw_illumination_flat_shading();break;
-//        case OBJECT_CYLINDER:Cylinder.draw_illumination_flat_shading();break;
+		    case OBJECT_CONE:Cone.draw_illumination_flat_shading();break;
+          case OBJECT_CYLINDER:Cylinder.draw_illumination_flat_shading();break;
 	       case OBJECT_SPHERE:Sphere.draw_illumination_flat_shading();break;
 	       case OBJECT_PLY:Object_ply.draw_illumination_flat_shading();break;
 	       case OBJECT_HIERARCHICAL:Level3.draw_illumination_flat_shading();break;
@@ -276,8 +276,8 @@ void draw_objects()
 	    glEnable(GL_LIGHTING);
 	    switch (Object){
 	       case OBJECT_TETRAHEDRON:Tetrahedron.draw_illumination_smooth_shading();break;
-//        case OBJECT_CONE:Cone.draw_illumination_smooth_shading();break;
-//        case OBJECT_CYLINDER:Cylinder.draw_illumination_smooth_shading();break;
+          case OBJECT_CONE:Cone.draw_illumination_smooth_shading();break;
+          case OBJECT_CYLINDER:Cylinder.draw_illumination_smooth_shading();break;
 	       case OBJECT_SPHERE:Sphere.draw_illumination_smooth_shading();break;
 	       case OBJECT_PLY:Object_ply.draw_illumination_smooth_shading();break;
 	       case OBJECT_HIERARCHICAL:Level3.draw_illumination_smooth_shading();break;
@@ -290,11 +290,11 @@ void draw_objects()
 	 case MODE_RENDERING_TEXTURE:
 	    switch (Object){
 	       case OBJECT_TETRAHEDRON:Tetrahedron.draw_texture();break;
-//      case OBJECT_CONE:Cone.draw_texture();break;
-//      case OBJECT_CYLINDER:Cylinder.draw_texture();break;
-//      case OBJECT_SPHERE:Sphere.draw_texture();break;
-//      case OBJECT_PLY:Object_ply.draw_texture();break;
-//      case OBJECT_HIERARCHICAL:Level3.draw_texture();break;
+          case OBJECT_CONE:Cone.draw_texture();break;
+          case OBJECT_CYLINDER:Cylinder.draw_texture();break;
+          case OBJECT_SPHERE:Sphere.draw_texture();break;
+          case OBJECT_PLY:Object_ply.draw_texture();break;
+          case OBJECT_HIERARCHICAL:Level3.draw_texture();break;
 	       case OBJECT_CHESS_BOARD:Chess_board.draw_texture();break;
 	       default:break;
 	    }
@@ -313,11 +313,11 @@ void draw_objects()
 	    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	    switch (Object){
 	       case OBJECT_TETRAHEDRON:Tetrahedron.draw_texture_illumination_flat_shading();break;
-//        case OBJECT_CONE:Cone.draw_texture();break;
-//        case OBJECT_CYLINDER:Cylinder.draw_texture();break;
-//        case OBJECT_SPHERE:Sphere.draw_texture();break;
-//        case OBJECT_PLY:Object_ply.draw_texture();break;
-//        case OBJECT_HIERARCHICAL:Level3.draw_texture();break;
+          case OBJECT_CONE:Cone.draw_texture();break;
+          case OBJECT_CYLINDER:Cylinder.draw_texture();break;
+          case OBJECT_SPHERE:Sphere.draw_texture();break;
+          case OBJECT_PLY:Object_ply.draw_texture();break;
+          case OBJECT_HIERARCHICAL:Level3.draw_texture();break;
 	       case OBJECT_CHESS_BOARD:Chess_board.draw_texture_illumination_flat_shading();break;
 	       default:break;
 	    }
@@ -338,11 +338,11 @@ void draw_objects()
 	    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	    switch (Object){
 	       case OBJECT_TETRAHEDRON:Tetrahedron.draw_texture_illumination_smooth_shading();break;
-//        case OBJECT_CONE:Cone.draw_texture();break;
-//        case OBJECT_CYLINDER:Cylinder.draw_texture();break;
-//        case OBJECT_SPHERE:Sphere.draw_texture();break;
-//        case OBJECT_PLY:Object_ply.draw_texture();break;
-//        case OBJECT_HIERARCHICAL:Level3.draw_texture();break;
+          case OBJECT_CONE:Cone.draw_texture();break;
+          case OBJECT_CYLINDER:Cylinder.draw_texture();break;
+          case OBJECT_SPHERE:Sphere.draw_texture();break;
+          case OBJECT_PLY:Object_ply.draw_texture();break;
+          case OBJECT_HIERARCHICAL:Level3.draw_texture();break;
 	       case OBJECT_CHESS_BOARD:Chess_board.draw_texture_illumination_smooth_shading();break;
 	       default:break;
 	    }
@@ -408,7 +408,7 @@ void normal_keys(unsigned char Tecla1,int x,int y)
       case 'P':Draw_point=!Draw_point;break;
       case 'L':Draw_line=!Draw_line;break;
       case 'F':Draw_fill=!Draw_fill;break;
-//      case 'C':Draw_chess=!Draw_chess;break;
+      case 'C':Draw_chess=!Draw_chess;break;
 
       case 'J':Light0_active=!Light0_active;break;
       case 'K':Light1_active=!Light1_active;break;
