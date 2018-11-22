@@ -355,15 +355,30 @@ void _node::draw_fill_obj(_shading_mode modo)
    glColor3fv(purple);
    for (unsigned int i=0;i<Triangles.size();i++){
    	if(modo == FLAT_MODE)
+   	{
    		normal = triangle_Normals[i]; 
+   		glNormal3f( normal.x, normal.y, normal.z);
+
+	      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._0]);
+	      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._1]);
+	      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._2]);
+   	}
    	else
-   		normal = vertex_Normals[i];
+   	{
+   		normal = vertex_Normals[Triangles[i]._0];
+   		glNormal3f( normal.x, normal.y, normal.z);
+	      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._0]);
 
-   	glNormal3f( normal.x, normal.y, normal.z);
+   		normal = vertex_Normals[Triangles[i]._1];
+   		glNormal3f( normal.x, normal.y, normal.z);
+	      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._1]);
 
-      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._0]);
-      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._1]);
-      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._2]);
+   		normal = vertex_Normals[Triangles[i]._2];
+   		glNormal3f( normal.x, normal.y, normal.z);
+	      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._2]);
+   	}
+
+   	
    }
    glEnd();
 }
@@ -444,7 +459,7 @@ void _node::draw_fill(_shading_mode modo)
       draw_fill_obj(modo);
    
       for(int i = 0; i < hijos.size() ; ++i)
-         hijos[i].draw_fill();
+         hijos[i].draw_fill(modo);
    glPopMatrix();
 
 }
@@ -487,10 +502,6 @@ void _node::draw_illumination_smooth_shading()
 {
 	GLfloat  luz_ambiente[ ] = {0.3, 0.3, 0.3, 1.0},
 				luz_difusa[ ] = {1.0, 1.0, 1.0, 1.0};
-
-	_vertex3f Material_diffuse(0.3,0.3,0.3);
-   _vertex3f Material_specular(0.1,0.1,0.1);
-   _vertex3f Material_ambient(0.05,0.05,0.05);
 
    glLightfv(GL_LIGHT0, GL_AMBIENT, luz_ambiente);
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, luz_difusa);

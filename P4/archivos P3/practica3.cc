@@ -72,7 +72,7 @@ unsigned  int   Material_active=0;
           float Light1_angle=0;
 const     float INC_LIGHT1_ANGLE=1;
 
-_mode_rendering Mode_rendering=MODE_RENDERING_SOLID;
+_mode_rendering Mode_rendering=MODE_RENDERING_ILLUMINATION_SMOOTH_SHADING;
 
 bool Draw_point=false;
 bool Draw_line=true;
@@ -91,21 +91,20 @@ _object Object=OBJECT_TETRAHEDRON;
 void set_lights()
 {
    if (Light0_active){
-      _vertex4f Position(0,0,1,0);
-      _vertex4f Position2(0,1,0,0);
+      _vertex4f Position(0,0,1,1);
 
       glEnable(GL_LIGHT0);
-      glEnable(GL_LIGHT1);
+      //glEnable(GL_LIGHT1);
       glMatrixMode(GL_MODELVIEW);
       glPushMatrix();
       glLoadIdentity();
       glLightfv(GL_LIGHT0,GL_POSITION,(GLfloat *)&Position);
-      glLightfv(GL_LIGHT1,GL_POSITION,(GLfloat *)&Position2);
+      //glLightfv(GL_LIGHT1,GL_POSITION,(GLfloat *)&Position2);
       glPopMatrix();
    }
    else{
       glDisable(GL_LIGHT0);
-      glDisable(GL_LIGHT1);
+      //glDisable(GL_LIGHT1);
    }
    // poner la segunda luz
 }
@@ -120,22 +119,22 @@ void set_lights()
 void set_materials()
 {
    switch (Material_active){
-      case 0:{
-   _vertex3f Material_diffuse(0.3,0.3,0.3);
-   _vertex3f Material_specular(0.1,0.1,0.1);
-   _vertex3f Material_ambient(0.05,0.05,0.05);
-   float Material_shininess=1;
+    case 0:{
+      _vertex3f Material_diffuse(0.3,0.3,0.3);
+      _vertex3f Material_specular(0.1,0.1,0.1);
+      _vertex3f Material_ambient(0.1,0.1,0.1);
+      float Material_shininess=1;
 
-   glMaterialfv(GL_FRONT_AND_BACK,GL_DIFFUSE,(GLfloat *)&Material_diffuse);
-   glMaterialfv(GL_FRONT_AND_BACK,GL_SPECULAR,(GLfloat *)&Material_specular);
-   glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT,(GLfloat *)&Material_ambient);
-   glMaterialf(GL_FRONT_AND_BACK,GL_SHININESS,Material_shininess);
-      }
-   break;
-      case 1: // segundo material
-   break;
-      case 2: // tercer material
-   break;
+      glMaterialfv(GL_FRONT_AND_BACK,GL_DIFFUSE,(GLfloat *)&Material_diffuse);
+      glMaterialfv(GL_FRONT_AND_BACK,GL_SPECULAR,(GLfloat *)&Material_specular);
+      glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT,(GLfloat *)&Material_ambient);
+      glMaterialf(GL_FRONT_AND_BACK,GL_SHININESS,Material_shininess);
+        }
+      break;
+    case 1: // segundo material//
+      break;
+    case 2: // tercer material
+      break;
    }
 }
 
@@ -314,7 +313,7 @@ void draw_objects()
           glLightModelfv(GL_LIGHT_MODEL_AMBIENT,(GLfloat *)&Ambient);
 
           set_lights();
-          set_materials();
+          //set_materials();
 
           glEnable(GL_LIGHTING);
           // parametros de aplicacion de la textura
@@ -342,7 +341,7 @@ void draw_objects()
           glLightModelfv(GL_LIGHT_MODEL_AMBIENT,(GLfloat *)&Ambient);
 
           set_lights();
-          set_materials();
+          //set_materials();
 
           glEnable(GL_LIGHTING);
           // parametros de aplicacion de la textura
@@ -527,6 +526,11 @@ void special_keys(int Tecla1,int x,int y)
         case GLUT_KEY_DOWN:Observer_angle_x++;break;
         case GLUT_KEY_PAGE_UP:Observer_distance*=1.2;break;
         case GLUT_KEY_PAGE_DOWN:Observer_distance/=1.2;break;
+        case GLUT_KEY_F1:Mode_rendering=MODE_RENDERING_SOLID;break;
+        case GLUT_KEY_F2:Mode_rendering=MODE_RENDERING_SOLID_CHESS;break;
+        case GLUT_KEY_F3:Mode_rendering=MODE_RENDERING_ILLUMINATION_FLAT_SHADING;break;
+        case GLUT_KEY_F4:Mode_rendering=MODE_RENDERING_ILLUMINATION_SMOOTH_SHADING;break;
+        case GLUT_KEY_F5:Mode_rendering=MODE_RENDERING_TEXTURE;break;
    }
    glutPostRedisplay();
 }
