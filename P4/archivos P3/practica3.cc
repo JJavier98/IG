@@ -90,7 +90,7 @@ _object Object=OBJECT_TETRAHEDRON;
 */
 void set_lights()
 {
-   if (Light0_active){
+    if (Light0_active){
       _vertex4f Position(0,0,1,1);
 
       glEnable(GL_LIGHT0);
@@ -99,14 +99,32 @@ void set_lights()
       glPushMatrix();
       glLoadIdentity();
       glLightfv(GL_LIGHT0,GL_POSITION,(GLfloat *)&Position);
-      //glLightfv(GL_LIGHT1,GL_POSITION,(GLfloat *)&Position2);
       glPopMatrix();
-   }
-   else{
+     }
+     else{
       glDisable(GL_LIGHT0);
       //glDisable(GL_LIGHT1);
-   }
-   // poner la segunda luz
+    }
+
+    if(Light1_active)
+    {
+      _vertex4f Position(1,0,0,1);
+      _vertex4f diffuse(0.3,0.3,0.3,1);
+      _vertex4f specular(0.5,0.5,0.5,1);
+
+      glEnable(GL_LIGHT1);
+      glMatrixMode(GL_MODELVIEW);
+      glPushMatrix();
+      glLoadIdentity();
+      glLightfv(GL_LIGHT1,GL_POSITION,(GLfloat *)&Position);
+      glLightfv(GL_LIGHT1,GL_DIFFUSE,(GLfloat *)&diffuse);
+      glLightfv(GL_LIGHT1,GL_SPECULAR,(GLfloat *)&specular);
+      glPopMatrix();
+    }
+    else
+    {
+      glDisable(GL_LIGHT1);
+    }
 }
 
 
@@ -498,6 +516,7 @@ void normal_keys(unsigned char Tecla1,int x,int y)
         case 'K':Grua.decrementar_velocidad_tronco();break;
 
         case 'B':Light0_active=!Light0_active;break;
+        case 'N':Light1_active=!Light1_active;break;
         case 'V':Material_active=(Material_active+1)%3;break;
 
         case 'A':cambiarAnimacion();break;
