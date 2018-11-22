@@ -26,4 +26,6 @@ _tronco::_tronco()
 
 	angulo1 = 0;
 	velocidad = 1;
+	
+   	calcularNormales();
 }

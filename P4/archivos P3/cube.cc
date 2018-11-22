@@ -54,5 +54,7 @@ _cube::_cube(float Size)
 
    Triangles[10]=_vertex3ui(3,2,5);
    Triangles[11]=_vertex3ui(3,5,6);
+
+   calcularNormales();
 }
 

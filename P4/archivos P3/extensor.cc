@@ -28,5 +28,7 @@ _extensor::_extensor()
 
 	limiteInclinacion1 = 238;
 	limiteInclinacion2 = -55;
+	
+   	calcularNormales();
 }
 

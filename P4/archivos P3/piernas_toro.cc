@@ -4,4 +4,5 @@
 _piernas_toro::_piernas_toro()
 {
 	
+   	calcularNormales();
 }

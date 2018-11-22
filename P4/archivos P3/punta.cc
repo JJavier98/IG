@@ -32,4 +32,6 @@ _punta::_punta()
 	limiteDesplazamientoY_1 = 5;
 
 	limiteDesplazamientoY_2 = -0.9;
+	
+   	calcularNormales();
 }

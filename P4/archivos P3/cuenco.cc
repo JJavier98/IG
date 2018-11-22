@@ -18,7 +18,7 @@ _cuenco::_cuenco(float R, float H)
 	angulo1 = 0;
 	velocidad = 1;
 
-	for (float i = -M_PI/2; i < 0; i+=0.1)
+	for (float i = -M_PI/2+0.02; i < 0; i+=0.1)
 	{
 		Vertices.push_back(_vertex3f(cos(i)*R,sin(i)*H,0.0));
 	}
@@ -31,4 +31,6 @@ _cuenco::_cuenco(float R, float H)
 		Vertices.push_back(_vertex3f(cos(i)*newR,sin(i)*newH,0.0));
 	}
 	this->rotarArbitrario(0,1,0,true,true,true,0);
+	
+   	calcularNormales();
 }

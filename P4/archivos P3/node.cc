@@ -66,10 +66,9 @@ void _node::load(const vector<_vertex3f> & V, const vector<_vertex3ui> & T)
 void _node::calcularNormales()
 {
 	// INICIALIZAR NORMALES
-	for (int i = 0; i < Vertices.size(); ++i)
-	{
-		vertex_Normals.push_back(_vertex3f(-999,-999,-999));
-	}
+  	vector< vector<_vertex3f> > vn_vertex;
+  	vn_vertex.resize(Vertices.size());
+  	vertex_Normals.resize(Vertices.size());
 
    _vertex3f normal, //vector normal no unitario
    			 A,		//primer vector para el producto
@@ -103,60 +102,97 @@ void _node::calcularNormales()
       // Vector normal
       normal = A.cross_product(B);
 
+      cout << normal.x << " " << normal.y << " " << normal.z << endl;
+
       v_normalizado = normal;
       v_normalizado.normalize();
 
       triangle_Normals.push_back(v_normalizado); // vector normal al triangulo
 
       // vectores normales a los vertices
-      if(vertex_Normals[indice0].x == vertex_Normals[indice0].y and vertex_Normals[indice0].x == vertex_Normals[indice0].z and vertex_Normals[indice0].x == -999)
+      if (vn_vertex[indice0].size()==0)
       {
-      	vertex_Normals[indice0] = v_normalizado;
+      	vn_vertex[indice0].push_back(v_normalizado);
       }
       else
       {
-      	_vertex3f aux = vertex_Normals[indice0];
-      	aux = aux + v_normalizado;
+      	bool salir = false;
 
-      	aux.x /= 2;
-      	aux.y /= 2;
-      	aux.z /= 2;
-
-         vertex_Normals[indice0] = aux.normalize();
+      	for (int i = 0; i < vn_vertex[indice0].size() and !salir; ++i)
+      	{
+      		if(vn_vertex[indice0][i]==v_normalizado)
+      			salir = true;
+      	}
+      	if (!salir)
+      	{
+      		vn_vertex[indice0].push_back(v_normalizado);
+      	}
       }
 
-      if(vertex_Normals[indice1].x == vertex_Normals[indice1].y and vertex_Normals[indice1].x == vertex_Normals[indice1].z and vertex_Normals[indice1].x == -999)
+      if (vn_vertex[indice1].size()==0)
       {
-      	vertex_Normals[indice1] = v_normalizado;
-      }
-      else
-      {
-      	_vertex3f aux = vertex_Normals[indice1];
-      	aux = aux + v_normalizado;
-
-      	aux.x /= 2;
-      	aux.y /= 2;
-      	aux.z /= 2;
-
-         vertex_Normals[indice1] = aux.normalize();
-      }
-
-      if(vertex_Normals[indice2].x == vertex_Normals[indice2].y and vertex_Normals[indice2].x == vertex_Normals[indice2].z and vertex_Normals[indice2].x == -999)
-      {
-      	vertex_Normals[indice2] = v_normalizado;
+      	vn_vertex[indice1].push_back(v_normalizado);
       }
       else
       {
-      	_vertex3f aux = vertex_Normals[indice2];
-      	aux = aux + v_normalizado;
+      	bool salir = false;
 
-      	aux.x /= 2;
-      	aux.y /= 2;
-      	aux.z /= 2;
+      	for (int i = 0; i < vn_vertex[indice1].size() and !salir; ++i)
+      	{
+      		if(vn_vertex[indice1][i]==v_normalizado)
+      			salir = true;
+      	}
+      	if (!salir)
+      	{
+      		vn_vertex[indice1].push_back(v_normalizado);
+      	}
+      }
 
-         vertex_Normals[indice2] = aux.normalize();
+      if (vn_vertex[indice2].size()==0)
+      {
+      	vn_vertex[indice2].push_back(v_normalizado);
+      }
+      else
+      {
+      	bool salir = false;
+
+      	for (int i = 0; i < vn_vertex[indice2].size() and !salir; ++i)
+      	{
+      		if(vn_vertex[indice2][i]==v_normalizado)
+      			salir = true;
+      	}
+      	if (!salir)
+      	{
+      		vn_vertex[indice2].push_back(v_normalizado);
+      	}
       }
    }
+
+   for (int i = 0; i < vn_vertex.size(); ++i)
+   {
+   	for (int j = 0; j < vn_vertex[i].size(); ++j)
+   	{
+   		if(j==0)
+   			vertex_Normals[i] = vn_vertex[i][j];
+   		else
+   			vertex_Normals[i] += vn_vertex[i][j];
+   	}
+   }
+
+   for (int i = 0; i < vertex_Normals.size(); ++i)
+   {
+   	vertex_Normals[i].normalize();
+   }
+   /*cout << "triangulos: " << endl;
+   for (int i = 0; i < triangle_Normals.size(); ++i)
+   {
+   	cout << triangle_Normals[i].x << " " << triangle_Normals[i].y << " " << triangle_Normals[i].z << endl;
+   }
+   cout << endl << "vertices: " << endl;
+   for (int i = 0; i < vertex_Normals.size(); ++i)
+   {
+   	cout << vertex_Normals[i].x << " " << vertex_Normals[i].y << " " << vertex_Normals[i].z << endl;
+   }*/
 }
 
 void _node::incrementar_inclinacion()
@@ -309,13 +345,22 @@ void _node::draw_line_obj()
    glEnd();
 }
 
-void _node::draw_fill_obj()
+void _node::draw_fill_obj(_shading_mode modo)
 {
+	_vertex3f normal;
    GLfloat const purple[3] = {0.5,0,1};
+
    glPolygonMode(GL_FRONT/*_AND_BACK*/,GL_FILL);
    glBegin(GL_TRIANGLES);
    glColor3fv(purple);
    for (unsigned int i=0;i<Triangles.size();i++){
+   	if(modo == FLAT_MODE)
+   		normal = triangle_Normals[i]; 
+   	else
+   		normal = vertex_Normals[i];
+
+   	glNormal3f( normal.x, normal.y, normal.z);
+
       glVertex3fv((GLfloat *) &Vertices[Triangles[i]._0]);
       glVertex3fv((GLfloat *) &Vertices[Triangles[i]._1]);
       glVertex3fv((GLfloat *) &Vertices[Triangles[i]._2]);
@@ -386,7 +431,7 @@ void _node::draw_line()
 
 }
 
-void _node::draw_fill()
+void _node::draw_fill(_shading_mode modo)
 {
    GLfloat const purple[3] = {0.5,0,1};
    glMatrixMode(GL_MODELVIEW);
@@ -396,7 +441,7 @@ void _node::draw_fill()
    glRotatef(angulo1+velocidad,xr,yr,zr);
    glScalef(xs,ys,zs);
 
-      draw_fill_obj();
+      draw_fill_obj(modo);
    
       for(int i = 0; i < hijos.size() ; ++i)
          hijos[i].draw_fill();
@@ -431,12 +476,30 @@ void _node::draw_chess()
 
 void _node::draw_illumination_flat_shading()
 {
+	glShadeModel(GL_FLAT);
+	glEnable(GL_NORMALIZE);
+	glEnable(GL_LIGHTING);
 
+	draw_fill(FLAT_MODE);
 }
 
 void _node::draw_illumination_smooth_shading()
 {
+	GLfloat  luz_ambiente[ ] = {0.3, 0.3, 0.3, 1.0},
+				luz_difusa[ ] = {1.0, 1.0, 1.0, 1.0};
 
+	_vertex3f Material_diffuse(0.3,0.3,0.3);
+   _vertex3f Material_specular(0.1,0.1,0.1);
+   _vertex3f Material_ambient(0.05,0.05,0.05);
+
+   glLightfv(GL_LIGHT0, GL_AMBIENT, luz_ambiente);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, luz_difusa);
+
+	glShadeModel(GL_SMOOTH);
+	glEnable(GL_NORMALIZE);
+	glEnable(GL_LIGHTING);
+
+	draw_fill(SMOOTH_MODE);
 }
 
 void _node::draw_texture()

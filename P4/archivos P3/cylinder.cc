@@ -23,5 +23,6 @@ _cylinder::_cylinder(float R, float H)
 	Vertices[1]=_vertex3f(R,H,0.0);
 
 	rotarArbitrario(0,1,0);
-
+	
+   	calcularNormales();
 }

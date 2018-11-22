@@ -54,5 +54,7 @@ _paralel:: _paralel(float W, float H)
 
    Triangles[10]=_vertex3ui(3,2,5);
    Triangles[11]=_vertex3ui(3,5,6);
+
+   calcularNormales();
 }
 

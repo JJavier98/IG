@@ -45,6 +45,8 @@ _tetrahedron::_tetrahedron(float Size)
    Triangles[2]=_vertex3ui(2,0,3);
    Triangles[3]=_vertex3ui(0,2,1);
 
+   calcularNormales();
+
                      //x,y,z,triangulos,tapas,giro_completo,angulo
    //this->rotarArbitrario(0,1,0,false,false,false,200);
 }

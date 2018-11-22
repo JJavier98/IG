@@ -10,6 +10,8 @@ _grua::_grua()
 {
 	_base base;
 	add_hijo(base);
+	
+   	calcularNormales();
 }
 
 void _grua::incrementar_desplazamiento_punta()

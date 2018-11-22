@@ -22,4 +22,6 @@ _cone::_cone(float Size)
 	Vertices.push_back(_vertex3f(Size/2,0.0,0.0));
 
 	rotarArbitrario(0,1,0);
+	
+   	calcularNormales();
 }

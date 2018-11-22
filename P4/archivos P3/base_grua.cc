@@ -22,4 +22,6 @@ _base::_base()
 	xs = 1.5;
 	ys = 0.2;
 	zs = 1.5;
+	
+   	calcularNormales();
 }

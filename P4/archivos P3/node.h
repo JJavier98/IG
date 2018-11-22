@@ -12,6 +12,8 @@
 
 using namespace std;
 
+typedef enum {FLAT_MODE, SMOOTH_MODE} _shading_mode;
+
 class _node
 {
 public:
@@ -60,12 +62,12 @@ public:
 	void calcularNormales();
 
 	void draw_line();
-	void draw_fill();
+	void draw_fill(_shading_mode modo = SMOOTH_MODE);
 	void draw_chess();
 	void draw_point();
 
 	void draw_line_obj();
-	void draw_fill_obj();
+	void draw_fill_obj(_shading_mode modo = SMOOTH_MODE);
 	void draw_chess_obj();
 	void draw_point_obj();
 

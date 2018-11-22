@@ -92,16 +92,20 @@ void set_lights()
 {
    if (Light0_active){
       _vertex4f Position(0,0,1,0);
+      _vertex4f Position2(0,1,0,0);
 
       glEnable(GL_LIGHT0);
+      glEnable(GL_LIGHT1);
       glMatrixMode(GL_MODELVIEW);
       glPushMatrix();
       glLoadIdentity();
       glLightfv(GL_LIGHT0,GL_POSITION,(GLfloat *)&Position);
+      glLightfv(GL_LIGHT1,GL_POSITION,(GLfloat *)&Position2);
       glPopMatrix();
    }
    else{
       glDisable(GL_LIGHT0);
+      glDisable(GL_LIGHT1);
    }
    // poner la segunda luz
 }
@@ -494,6 +498,9 @@ void normal_keys(unsigned char Tecla1,int x,int y)
         case 'J':Grua.incrementar_velocidad_tronco();break;
         case 'K':Grua.decrementar_velocidad_tronco();break;
 
+        case 'B':Light0_active=!Light0_active;break;
+        case 'V':Material_active=(Material_active+1)%3;break;
+
         case 'A':cambiarAnimacion();break;
 
         case '0':exit(0);
@@ -628,6 +635,17 @@ int main(int argc, char **argv)
 	// GLUT_DEPTH -> memoria de profundidad o z-bufer
 	// GLUT_STENCIL -> memoria de estarcido
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+
+  // Borrar z-Buffer
+  glClearDepth(1.0);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+  // Activar EPO
+  glEnable(GL_DEPTH_TEST);
+
+  // Eliminacion de la cara trasera
+  glCullFace(GL_BACK); 
+  glEnable(GL_CULL_FACE);
 
 	// posicion de la esquina inferior izquierdad de la ventana
 	glutInitWindowPosition(UI_window_pos_x,UI_window_pos_y);

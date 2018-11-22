@@ -34,4 +34,6 @@ _brazo::_brazo()
 
 	limiteInclinacion1 = 31;
 	limiteInclinacion2 = -211;
+	
+   	calcularNormales();
 }
