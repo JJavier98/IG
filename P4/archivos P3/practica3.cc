@@ -91,7 +91,7 @@ _object Object=OBJECT_TETRAHEDRON;
 void set_lights()
 {
     if (Light0_active){
-      _vertex4f Position(0,0,1,1);
+      _vertex4f Position(100,100,100,1);
 
       glEnable(GL_LIGHT0);
       //glEnable(GL_LIGHT1);
@@ -108,13 +108,17 @@ void set_lights()
 
     if(Light1_active)
     {
-      _vertex4f Position(1,0,0,1);
-      _vertex4f diffuse(0.3,0.3,0.3,1);
-      _vertex4f specular(0.5,0.5,0.5,1);
+      _vertex4f Position(100,100,100,1);
+      _vertex4f diffuse(1,0,0,1);
+      _vertex4f specular(1,0,0,1);
 
       glEnable(GL_LIGHT1);
       glMatrixMode(GL_MODELVIEW);
       glPushMatrix();
+      if(animacion)
+      {
+        glRotatef(10, 0, 1, 0);
+      }
       glLoadIdentity();
       glLightfv(GL_LIGHT1,GL_POSITION,(GLfloat *)&Position);
       glLightfv(GL_LIGHT1,GL_DIFFUSE,(GLfloat *)&diffuse);
@@ -127,7 +131,6 @@ void set_lights()
     }
 }
 
-
 /**
  *
  *@param
@@ -138,10 +141,10 @@ void set_materials()
 {
    switch (Material_active){
     case 0:{
-      _vertex3f Material_diffuse(0.3,0.3,0.3);
+      _vertex3f Material_diffuse(0.1,0.1,0.1);
       _vertex3f Material_specular(0.1,0.1,0.1);
       _vertex3f Material_ambient(0.1,0.1,0.1);
-      float Material_shininess=1;
+      float Material_shininess=0.3;
 
       glMaterialfv(GL_FRONT_AND_BACK,GL_DIFFUSE,(GLfloat *)&Material_diffuse);
       glMaterialfv(GL_FRONT_AND_BACK,GL_SPECULAR,(GLfloat *)&Material_specular);
@@ -149,9 +152,29 @@ void set_materials()
       glMaterialf(GL_FRONT_AND_BACK,GL_SHININESS,Material_shininess);
         }
       break;
-    case 1: // segundo material//
+    case 1:{
+      _vertex3f Material_diffuse(0,0.5,0);
+      _vertex3f Material_specular(0,0.7,0);
+      _vertex3f Material_ambient(0,0.3,0);
+      float Material_shininess=0.5;
+
+      glMaterialfv(GL_FRONT_AND_BACK,GL_DIFFUSE,(GLfloat *)&Material_diffuse);
+      glMaterialfv(GL_FRONT_AND_BACK,GL_SPECULAR,(GLfloat *)&Material_specular);
+      glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT,(GLfloat *)&Material_ambient);
+      glMaterialf(GL_FRONT_AND_BACK,GL_SHININESS,Material_shininess);
+    }
       break;
-    case 2: // tercer material
+    case 2:{
+      _vertex3f Material_diffuse(0,0,0.5);
+      _vertex3f Material_specular(0,0,0.7);
+      _vertex3f Material_ambient(0,0,0.3);
+      float Material_shininess=0.5;
+
+      glMaterialfv(GL_FRONT_AND_BACK,GL_DIFFUSE,(GLfloat *)&Material_diffuse);
+      glMaterialfv(GL_FRONT_AND_BACK,GL_SPECULAR,(GLfloat *)&Material_specular);
+      glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT,(GLfloat *)&Material_ambient);
+      glMaterialf(GL_FRONT_AND_BACK,GL_SHININESS,Material_shininess);
+    }
       break;
    }
 }
@@ -452,8 +475,10 @@ void funcion_idle()
 void cambiarAnimacion()
 {
   animacion = !animacion;
-  if(animacion)
+  if(animacion and Object==OBJECT_HIERARCHY)
     glutIdleFunc(funcion_idle);
+  if(animacion and Object==OBJECT_PLY_)
+    glutIdleFunc(set_lights);
   else
     glutIdleFunc(nullptr);
 }
@@ -599,6 +624,7 @@ int main(int argc, char **argv)
       inicialPLYt = Triangles;
 
 			ObjPLY.load(Vertices, Triangles);
+      ObjPLY.calcularNormales();
 
       int selec;
 

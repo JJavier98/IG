@@ -102,8 +102,6 @@ void _node::calcularNormales()
       // Vector normal
       normal = A.cross_product(B);
 
-      cout << normal.x << " " << normal.y << " " << normal.z << endl;
-
       v_normalizado = normal;
       v_normalizado.normalize();
 
@@ -183,7 +181,7 @@ void _node::calcularNormales()
    {
    	vertex_Normals[i].normalize();
    }
-   /*cout << "triangulos: " << endl;
+   cout << "triangulos: " << endl;
    for (int i = 0; i < triangle_Normals.size(); ++i)
    {
    	cout << triangle_Normals[i].x << " " << triangle_Normals[i].y << " " << triangle_Normals[i].z << endl;
@@ -192,7 +190,7 @@ void _node::calcularNormales()
    for (int i = 0; i < vertex_Normals.size(); ++i)
    {
    	cout << vertex_Normals[i].x << " " << vertex_Normals[i].y << " " << vertex_Normals[i].z << endl;
-   }*/
+   }
 }
 
 void _node::incrementar_inclinacion()
@@ -377,8 +375,6 @@ void _node::draw_fill_obj(_shading_mode modo)
    		glNormal3f( normal.x, normal.y, normal.z);
 	      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._2]);
    	}
-
-   	
    }
    glEnd();
 }
@@ -492,7 +488,6 @@ void _node::draw_chess()
 void _node::draw_illumination_flat_shading()
 {
 	glShadeModel(GL_FLAT);
-	glEnable(GL_NORMALIZE);
 	glEnable(GL_LIGHTING);
 
 	draw_fill(FLAT_MODE);
@@ -500,14 +495,13 @@ void _node::draw_illumination_flat_shading()
 
 void _node::draw_illumination_smooth_shading()
 {
-	GLfloat  luz_ambiente[ ] = {0.3, 0.3, 0.3, 1.0},
-				luz_difusa[ ] = {1.0, 1.0, 1.0, 1.0};
+	GLfloat  luz_ambiente[ ] = {0.1, 0, 0, 1.0},
+				luz_difusa[ ] = {0.1, 0, 0, 1.0};
 
    glLightfv(GL_LIGHT0, GL_AMBIENT, luz_ambiente);
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, luz_difusa);
 
 	glShadeModel(GL_SMOOTH);
-	glEnable(GL_NORMALIZE);
 	glEnable(GL_LIGHTING);
 
 	draw_fill(SMOOTH_MODE);
@@ -535,6 +529,17 @@ void _node::draw_texture_illumination_smooth_shading()
 void _node::rotarArbitrario(float ux, float uy, float uz, bool triangulos, bool tapas, bool rotar_completo, float angulo)
 {
    // CREACION DE VERTICES
+   _vertex3f aux;
+   aux.x = ux;
+   aux.y = uy;
+   aux.z = uz;
+
+   aux.normalize();
+
+   ux = aux.x;
+   uy = aux.y;
+   uz = aux.z;
+
    vector<_vertex3f> newVertices;
 
    int iteraciones = 1;
