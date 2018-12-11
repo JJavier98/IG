@@ -5,6 +5,7 @@
 #include <ctype.h>
 #include <file_ply_stl.h>
 #include <vector>
+#include <cmath>
 
 #include "colors.h"
 #include "axis.h"
@@ -17,7 +18,7 @@
 #include "cuenco.h"
 #include "toro.h"
 #include "node.h"
-#include <cmath>
+#include "textura.h"
 
 using namespace _colors_ne;
 
@@ -71,8 +72,9 @@ unsigned  int   Material_active=0;
           bool  Light1_active=false;
           float Light1_angle=0;
 const     float INC_LIGHT1_ANGLE=1;
+          float angulo = 0.0;
 
-_mode_rendering Mode_rendering=MODE_RENDERING_ILLUMINATION_SMOOTH_SHADING;
+_mode_rendering Mode_rendering=MODE_RENDERING_SOLID;
 
 bool Draw_point=false;
 bool Draw_line=true;
@@ -94,7 +96,6 @@ void set_lights()
       _vertex4f Position(100,100,100,1);
 
       glEnable(GL_LIGHT0);
-      //glEnable(GL_LIGHT1);
       glMatrixMode(GL_MODELVIEW);
       glPushMatrix();
       glLoadIdentity();
@@ -103,32 +104,36 @@ void set_lights()
      }
      else{
       glDisable(GL_LIGHT0);
-      //glDisable(GL_LIGHT1);
     }
 
     if(Light1_active)
     {
       _vertex4f Position(100,100,100,1);
-      _vertex4f diffuse(1,0,0,1);
-      _vertex4f specular(1,0,0,1);
+      _vertex4f diffuse(0.1,0,0,1);
+      _vertex4f specular(0.7,0,0,1);
+
+
+      glLightfv(GL_LIGHT1,GL_DIFFUSE,(GLfloat *)&diffuse);
+      glLightfv(GL_LIGHT1,GL_SPECULAR,(GLfloat *)&specular);
 
       glEnable(GL_LIGHT1);
       glMatrixMode(GL_MODELVIEW);
       glPushMatrix();
-      if(animacion)
-      {
-        glRotatef(10, 0, 1, 0);
-      }
       glLoadIdentity();
+
+      if(animacion)
+        glRotatef(angulo, 0, 1, 0);
+
       glLightfv(GL_LIGHT1,GL_POSITION,(GLfloat *)&Position);
-      glLightfv(GL_LIGHT1,GL_DIFFUSE,(GLfloat *)&diffuse);
-      glLightfv(GL_LIGHT1,GL_SPECULAR,(GLfloat *)&specular);
       glPopMatrix();
     }
     else
     {
       glDisable(GL_LIGHT1);
     }
+
+    if(animacion)
+      glutPostRedisplay();
 }
 
 /**
@@ -141,9 +146,9 @@ void set_materials()
 {
    switch (Material_active){
     case 0:{
-      _vertex3f Material_diffuse(0.1,0.1,0.1);
-      _vertex3f Material_specular(0.1,0.1,0.1);
-      _vertex3f Material_ambient(0.1,0.1,0.1);
+      _vertex3f Material_diffuse(0.3,0.3,0.3);
+      _vertex3f Material_specular(0.3,0.3,0.3);
+      _vertex3f Material_ambient(0.3,0.3,0.3);
       float Material_shininess=0.3;
 
       glMaterialfv(GL_FRONT_AND_BACK,GL_DIFFUSE,(GLfloat *)&Material_diffuse);
@@ -153,9 +158,9 @@ void set_materials()
         }
       break;
     case 1:{
-      _vertex3f Material_diffuse(0,0.5,0);
-      _vertex3f Material_specular(0,0.7,0);
-      _vertex3f Material_ambient(0,0.3,0);
+      _vertex3f Material_diffuse(0.5,0.5,0);
+      _vertex3f Material_specular(0.5,0.5,0);
+      _vertex3f Material_ambient(0.3,0.3,0);
       float Material_shininess=0.5;
 
       glMaterialfv(GL_FRONT_AND_BACK,GL_DIFFUSE,(GLfloat *)&Material_diffuse);
@@ -165,9 +170,9 @@ void set_materials()
     }
       break;
     case 2:{
-      _vertex3f Material_diffuse(0,0,0.5);
-      _vertex3f Material_specular(0,0,0.7);
-      _vertex3f Material_ambient(0,0,0.3);
+      _vertex3f Material_diffuse(0.5,0,0.7);
+      _vertex3f Material_specular(0.5,0,0.7);
+      _vertex3f Material_ambient(0.3,0,0.3);
       float Material_shininess=0.5;
 
       glMaterialfv(GL_FRONT_AND_BACK,GL_DIFFUSE,(GLfloat *)&Material_diffuse);
@@ -240,170 +245,208 @@ void change_observer()
 //CAMBIAR PLY
 void draw_objects()
 {
-   Axis.draw_line();
+  Axis.draw_line();
 
 /////// POINT ///////////////////
-   if (Draw_point){
-        glPointSize(5);
-        glColor3fv((GLfloat *) &BLACK);
-        switch (Object){
-          case OBJECT_TETRAHEDRON: Tetrahedron.draw_point();break;
-          case OBJECT_CUBE: Cube.draw_point();break;
-          case OBJECT_PLY_: ObjPLY.draw_point();break;
-          case OBJECT_CYLINDER: Cylinder.draw_point();break;
-          case OBJECT_CONE: Cone.draw_point();break;
-          case OBJECT_SPHERE: Sphere.draw_point();break;
-          case OBJECT_HIERARCHY: Grua.draw_point();break;
-          case OBJECT_CUENCO: Cuenco.draw_point();break;
-          case OBJECT_TORO: Toro.draw_point();break;
-          default:break;
-        }
+ if (Draw_point){
+    glPointSize(5);
+    glColor3fv((GLfloat *) &BLACK);
+    switch (Object){
+      case OBJECT_TETRAHEDRON: Tetrahedron.draw_point();break;
+      case OBJECT_CUBE: Cube.draw_point();break;
+      case OBJECT_PLY_: ObjPLY.draw_point();break;
+      case OBJECT_CYLINDER: Cylinder.draw_point();break;
+      case OBJECT_CONE: Cone.draw_point();break;
+      case OBJECT_SPHERE: Sphere.draw_point();break;
+      case OBJECT_HIERARCHY: Grua.draw_point();break;
+      case OBJECT_CUENCO: Cuenco.draw_point();break;
+      case OBJECT_TORO: Toro.draw_point();break;
+      default:break;
     }
+  }
 
 /////// LINE ///////////////////
-    if (Draw_line){
-        glLineWidth(3);
-        glColor3fv((GLfloat *) &MAGENTA);
-        switch (Object){
-    	 	  case OBJECT_TETRAHEDRON: Tetrahedron.draw_line();break;
-        	case OBJECT_CUBE: Cube.draw_line();break;
-        	case OBJECT_PLY_: ObjPLY.draw_line();break;
-          case OBJECT_CYLINDER: Cylinder.draw_line();break;
-          case OBJECT_CONE: Cone.draw_line();break;
-          case OBJECT_SPHERE: Sphere.draw_line();break;
-          case OBJECT_HIERARCHY: Grua.draw_line();break;
-          case OBJECT_CUENCO: Cuenco.draw_line();break;
-          case OBJECT_TORO: Toro.draw_line();break;
-          default:break;
-        }
+  if (Draw_line){
+    glLineWidth(3);
+    glColor3fv((GLfloat *) &MAGENTA);
+    switch (Object){
+	 	  case OBJECT_TETRAHEDRON: Tetrahedron.draw_line();break;
+    	case OBJECT_CUBE: Cube.draw_line();break;
+    	case OBJECT_PLY_: ObjPLY.draw_line();break;
+      case OBJECT_CYLINDER: Cylinder.draw_line();break;
+      case OBJECT_CONE: Cone.draw_line();break;
+      case OBJECT_SPHERE: Sphere.draw_line();break;
+      case OBJECT_HIERARCHY: Grua.draw_line();break;
+      case OBJECT_CUENCO: Cuenco.draw_line();break;
+      case OBJECT_TORO: Toro.draw_line();break;
+      default:break;
     }
+  }
 
 /////// FILL ///////////////////
-    if (Draw_fill){
-      switch (Mode_rendering){
-        case MODE_RENDERING_SOLID:
-        {
-          _vertex4f Ambient(0.1,0.1,0.1,1);
-
-          glLightModelfv(GL_LIGHT_MODEL_AMBIENT,(GLfloat *)&Ambient);
-
-          set_lights();
-          set_materials();
-
-          glEnable(GL_LIGHTING);
-          switch (Object){
-            case OBJECT_TETRAHEDRON: Tetrahedron.draw_illumination_flat_shading();break;
-            case OBJECT_CUBE: Cube.draw_illumination_flat_shading();break;
-            case OBJECT_PLY_: ObjPLY.draw_illumination_flat_shading();break;
-            case OBJECT_CYLINDER: Cylinder.draw_illumination_flat_shading();break;
-            case OBJECT_CONE: Cone.draw_illumination_flat_shading();break;
-            case OBJECT_SPHERE: Sphere.draw_illumination_flat_shading();break;
-            case OBJECT_HIERARCHY: Grua.draw_illumination_flat_shading();break;
-            case OBJECT_CUENCO: Cuenco.draw_illumination_flat_shading();break;
-            case OBJECT_TORO: Toro.draw_illumination_flat_shading();break;
-            default:break;
-          }
-          glDisable(GL_LIGHTING);
+    
+  switch (Mode_rendering){
+    case MODE_RENDERING_SOLID:  //F1
+    {
+      if (Draw_fill){
+        switch (Object){
+          case OBJECT_TETRAHEDRON: Tetrahedron.draw_fill();break;
+          case OBJECT_CUBE: Cube.draw_fill();break;
+          case OBJECT_PLY_: ObjPLY.draw_fill();break;
+          case OBJECT_CYLINDER: Cylinder.draw_fill();break;
+          case OBJECT_CONE: Cone.draw_fill();break;
+          case OBJECT_SPHERE: Sphere.draw_fill();break;
+          case OBJECT_HIERARCHY: Grua.draw_fill();break;
+          case OBJECT_CUENCO: Cuenco.draw_fill();break;
+          case OBJECT_TORO: Toro.draw_fill();break;
+          default:break;
         }
-        break;
-
-        case MODE_RENDERING_ILLUMINATION_SMOOTH_SHADING:
-        {
-          _vertex4f Ambient(0.1,0.1,0.1,1);
-          glLightModelfv(GL_LIGHT_MODEL_AMBIENT,(GLfloat *)&Ambient);
-
-          set_lights();
-          set_materials();
-
-          glEnable(GL_LIGHTING);
-          switch (Object){
-            case OBJECT_TETRAHEDRON: Tetrahedron.draw_illumination_smooth_shading();break;
-            case OBJECT_CUBE: Cube.draw_illumination_smooth_shading();break;
-            case OBJECT_PLY_: ObjPLY.draw_illumination_smooth_shading();break;
-            case OBJECT_CYLINDER: Cylinder.draw_illumination_smooth_shading();break;
-            case OBJECT_CONE: Cone.draw_illumination_smooth_shading();break;
-            case OBJECT_SPHERE: Sphere.draw_illumination_smooth_shading();break;
-            case OBJECT_HIERARCHY: Grua.draw_illumination_smooth_shading();break;
-            case OBJECT_CUENCO: Cuenco.draw_illumination_smooth_shading();break;
-            case OBJECT_TORO: Toro.draw_illumination_smooth_shading();break;
-            default:break;
-          }
-          glDisable(GL_LIGHTING);
-        }
-        break;
-
-        case MODE_RENDERING_TEXTURE:
-          switch (Object){
-            case OBJECT_TETRAHEDRON: Tetrahedron.draw_texture();break;
-            case OBJECT_CUBE: Cube.draw_texture();break;
-            case OBJECT_PLY_: ObjPLY.draw_texture();break;
-            case OBJECT_CYLINDER: Cylinder.draw_texture();break;
-            case OBJECT_CONE: Cone.draw_texture();break;
-            case OBJECT_SPHERE: Sphere.draw_texture();break;
-            case OBJECT_HIERARCHY: Grua.draw_texture();break;
-            case OBJECT_CUENCO: Cuenco.draw_texture();break;
-            case OBJECT_TORO: Toro.draw_texture();break;
-            default:break;
-          }
-        break;
-
-        case MODE_RENDERING_TEXTURE_ILLUMINATION_FLAT_SHADING:
-        {
-          _vertex4f Ambient(0.1,0.1,0.1,1);
-
-          glLightModelfv(GL_LIGHT_MODEL_AMBIENT,(GLfloat *)&Ambient);
-
-          set_lights();
-          //set_materials();
-
-          glEnable(GL_LIGHTING);
-          // parametros de aplicacion de la textura
-          glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-          switch (Object){
-            case OBJECT_TETRAHEDRON: Tetrahedron.draw_texture_illumination_flat_shading();break;
-            case OBJECT_CUBE: Cube.draw_texture_illumination_flat_shading();break;
-            case OBJECT_PLY_: ObjPLY.draw_texture_illumination_flat_shading();break;
-            case OBJECT_CYLINDER: Cylinder.draw_texture_illumination_flat_shading();break;
-            case OBJECT_CONE: Cone.draw_texture_illumination_flat_shading();break;
-            case OBJECT_SPHERE: Sphere.draw_texture_illumination_flat_shading();break;
-            case OBJECT_HIERARCHY: Grua.draw_texture_illumination_flat_shading();break;
-            case OBJECT_CUENCO: Cuenco.draw_texture_illumination_flat_shading();break;
-            case OBJECT_TORO: Toro.draw_texture_illumination_flat_shading();break;
-            default:break;
-          }
-          glDisable(GL_LIGHTING);
-        }
-        break;
-
-        case MODE_RENDERING_TEXTURE_ILLUMINATION_SMOOTH_SHADING:
-        {
-          _vertex4f Ambient(0.1,0.1,0.1,1);
-
-          glLightModelfv(GL_LIGHT_MODEL_AMBIENT,(GLfloat *)&Ambient);
-
-          set_lights();
-          //set_materials();
-
-          glEnable(GL_LIGHTING);
-          // parametros de aplicacion de la textura
-          glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-          switch (Object){
-            case OBJECT_TETRAHEDRON: Tetrahedron.draw_texture_illumination_smooth_shading();break;
-            case OBJECT_CUBE: Cube.draw_texture_illumination_smooth_shading();break;
-            case OBJECT_PLY_: ObjPLY.draw_texture_illumination_smooth_shading();break;
-            case OBJECT_CYLINDER: Cylinder.draw_texture_illumination_smooth_shading();break;
-            case OBJECT_CONE: Cone.draw_texture_illumination_smooth_shading();break;
-            case OBJECT_SPHERE: Sphere.draw_texture_illumination_smooth_shading();break;
-            case OBJECT_HIERARCHY: Grua.draw_texture_illumination_smooth_shading();break;
-            case OBJECT_CUENCO: Cuenco.draw_texture_illumination_smooth_shading();break;
-            case OBJECT_TORO: Toro.draw_texture_illumination_smooth_shading();break;
-            default:break;
-          }
-          glDisable(GL_LIGHTING);
-        }
-        break;
+        glDisable(GL_LIGHTING);
       }
     }
+    break;
+
+    case MODE_RENDERING_SOLID_CHESS:  //F2
+    {
+      if (Draw_chess){
+        switch (Object){
+          case OBJECT_TETRAHEDRON: Tetrahedron.draw_chess();break;
+          case OBJECT_CUBE: Cube.draw_chess();break;
+          case OBJECT_PLY_: ObjPLY.draw_chess();break;
+          case OBJECT_CYLINDER: Cylinder.draw_chess();break;
+          case OBJECT_CONE: Cone.draw_chess();break;
+          case OBJECT_SPHERE: Sphere.draw_chess();break;
+          case OBJECT_HIERARCHY: Grua.draw_chess();break;
+          case OBJECT_CUENCO: Cuenco.draw_chess();break;
+          case OBJECT_TORO: Toro.draw_chess();break;
+        default:break;
+        }
+      }
+    }
+    break;
+
+    case MODE_RENDERING_ILLUMINATION_FLAT_SHADING:  //F3
+    {
+       _vertex4f Ambient(0.1,0.1,0.1,1);
+
+      glLightModelfv(GL_LIGHT_MODEL_AMBIENT,(GLfloat *)&Ambient);
+
+      set_lights();
+      set_materials();
+
+      glEnable(GL_LIGHTING);
+      switch (Object){
+        case OBJECT_TETRAHEDRON: Tetrahedron.draw_illumination_flat_shading();break;
+        case OBJECT_CUBE: Cube.draw_illumination_flat_shading();break;
+        case OBJECT_PLY_: ObjPLY.draw_illumination_flat_shading();break;
+        case OBJECT_CYLINDER: Cylinder.draw_illumination_flat_shading();break;
+        case OBJECT_CONE: Cone.draw_illumination_flat_shading();break;
+        case OBJECT_SPHERE: Sphere.draw_illumination_flat_shading();break;
+        case OBJECT_HIERARCHY: Grua.draw_illumination_flat_shading();break;
+        case OBJECT_CUENCO: Cuenco.draw_illumination_flat_shading();break;
+        case OBJECT_TORO: Toro.draw_illumination_flat_shading();break;
+        default:break;
+      }
+      glDisable(GL_LIGHTING);
+    }
+    break;
+
+    case MODE_RENDERING_ILLUMINATION_SMOOTH_SHADING:  //F4
+    {
+      _vertex4f Ambient(0.1,0.1,0.1,1);
+      glLightModelfv(GL_LIGHT_MODEL_AMBIENT,(GLfloat *)&Ambient);
+
+      set_lights();
+      set_materials();
+
+      glEnable(GL_LIGHTING);
+      switch (Object){
+        case OBJECT_TETRAHEDRON: Tetrahedron.draw_illumination_smooth_shading();break;
+        case OBJECT_CUBE: Cube.draw_illumination_smooth_shading();break;
+        case OBJECT_PLY_: ObjPLY.draw_illumination_smooth_shading();break;
+        case OBJECT_CYLINDER: Cylinder.draw_illumination_smooth_shading();break;
+        case OBJECT_CONE: Cone.draw_illumination_smooth_shading();break;
+        case OBJECT_SPHERE: Sphere.draw_illumination_smooth_shading();break;
+        case OBJECT_HIERARCHY: Grua.draw_illumination_smooth_shading();break;
+        case OBJECT_CUENCO: Cuenco.draw_illumination_smooth_shading();break;
+        case OBJECT_TORO: Toro.draw_illumination_smooth_shading();break;
+        default:break;
+      }
+      glDisable(GL_LIGHTING);
+    }
+    break;
+
+    case MODE_RENDERING_TEXTURE:  //F5
+      switch (Object){
+        case OBJECT_TETRAHEDRON: Tetrahedron.draw_texture();break;
+        case OBJECT_CUBE: Cube.draw_texture();break;
+        case OBJECT_PLY_: ObjPLY.draw_texture();break;
+        case OBJECT_CYLINDER: Cylinder.draw_texture();break;
+        case OBJECT_CONE: Cone.draw_texture();break;
+        case OBJECT_SPHERE: Sphere.draw_texture();break;
+        case OBJECT_HIERARCHY: Grua.draw_texture();break;
+        case OBJECT_CUENCO: Cuenco.draw_texture();break;
+        case OBJECT_TORO: Toro.draw_texture();break;
+        default:break;
+      }
+    break;
+
+    case MODE_RENDERING_TEXTURE_ILLUMINATION_FLAT_SHADING:  //F6
+    {
+      _vertex4f Ambient(0.1,0.1,0.1,1);
+
+      glLightModelfv(GL_LIGHT_MODEL_AMBIENT,(GLfloat *)&Ambient);
+
+      set_lights();
+      //set_materials();
+
+      glEnable(GL_LIGHTING);
+      // parametros de aplicacion de la textura
+      glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+      switch (Object){
+        case OBJECT_TETRAHEDRON: Tetrahedron.draw_texture_illumination_flat_shading();break;
+        case OBJECT_CUBE: Cube.draw_texture_illumination_flat_shading();break;
+        case OBJECT_PLY_: ObjPLY.draw_texture_illumination_flat_shading();break;
+        case OBJECT_CYLINDER: Cylinder.draw_texture_illumination_flat_shading();break;
+        case OBJECT_CONE: Cone.draw_texture_illumination_flat_shading();break;
+        case OBJECT_SPHERE: Sphere.draw_texture_illumination_flat_shading();break;
+        case OBJECT_HIERARCHY: Grua.draw_texture_illumination_flat_shading();break;
+        case OBJECT_CUENCO: Cuenco.draw_texture_illumination_flat_shading();break;
+        case OBJECT_TORO: Toro.draw_texture_illumination_flat_shading();break;
+        default:break;
+      }
+      glDisable(GL_LIGHTING);
+    }
+    break;
+
+    case MODE_RENDERING_TEXTURE_ILLUMINATION_SMOOTH_SHADING:  //F6
+    {
+      _vertex4f Ambient(0.1,0.1,0.1,1);
+
+      glLightModelfv(GL_LIGHT_MODEL_AMBIENT,(GLfloat *)&Ambient);
+
+      set_lights();
+      //set_materials();
+
+      glEnable(GL_LIGHTING);
+      // parametros de aplicacion de la textura
+      glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+      switch (Object){
+        case OBJECT_TETRAHEDRON: Tetrahedron.draw_texture_illumination_smooth_shading();break;
+        case OBJECT_CUBE: Cube.draw_texture_illumination_smooth_shading();break;
+        case OBJECT_PLY_: ObjPLY.draw_texture_illumination_smooth_shading();break;
+        case OBJECT_CYLINDER: Cylinder.draw_texture_illumination_smooth_shading();break;
+        case OBJECT_CONE: Cone.draw_texture_illumination_smooth_shading();break;
+        case OBJECT_SPHERE: Sphere.draw_texture_illumination_smooth_shading();break;
+        case OBJECT_HIERARCHY: Grua.draw_texture_illumination_smooth_shading();break;
+        case OBJECT_CUENCO: Cuenco.draw_texture_illumination_smooth_shading();break;
+        case OBJECT_TORO: Toro.draw_texture_illumination_smooth_shading();break;
+        default:break;
+      }
+      glDisable(GL_LIGHTING);
+    }
+    break;
+  }
 
 /////// CHESS ///////////////////
    if (Draw_chess){
@@ -472,20 +515,27 @@ void funcion_idle()
   Grua.funcion_idle();
 }
 
+void funcion_idle2()
+{
+  angulo += 2;
+  set_lights();
+  glutPostRedisplay();
+}
+
 void cambiarAnimacion()
 {
   animacion = !animacion;
   if(animacion and Object==OBJECT_HIERARCHY)
     glutIdleFunc(funcion_idle);
-  if(animacion and Object==OBJECT_PLY_)
-    glutIdleFunc(set_lights);
+  else if(animacion)
+    glutIdleFunc(funcion_idle2);
   else
     glutIdleFunc(nullptr);
 }
 
 void funcionPLY()
 {
-  if(rotar)
+  if(rotar and Object == OBJECT_PLY_)
   {  
     cambioR = !cambioR;
     if(cambioR)
@@ -570,11 +620,13 @@ void special_keys(int Tecla1,int x,int y)
         case GLUT_KEY_DOWN:Observer_angle_x++;break;
         case GLUT_KEY_PAGE_UP:Observer_distance*=1.2;break;
         case GLUT_KEY_PAGE_DOWN:Observer_distance/=1.2;break;
-        case GLUT_KEY_F1:Mode_rendering=MODE_RENDERING_SOLID;break;
-        case GLUT_KEY_F2:Mode_rendering=MODE_RENDERING_SOLID_CHESS;break;
+        case GLUT_KEY_F1:Mode_rendering=MODE_RENDERING_SOLID;Draw_fill=!Draw_fill;Draw_chess=false;break;
+        case GLUT_KEY_F2:Mode_rendering=MODE_RENDERING_SOLID_CHESS;Draw_chess=!Draw_chess;Draw_fill=false;break;
         case GLUT_KEY_F3:Mode_rendering=MODE_RENDERING_ILLUMINATION_FLAT_SHADING;break;
         case GLUT_KEY_F4:Mode_rendering=MODE_RENDERING_ILLUMINATION_SMOOTH_SHADING;break;
         case GLUT_KEY_F5:Mode_rendering=MODE_RENDERING_TEXTURE;break;
+        case GLUT_KEY_F6:Mode_rendering=MODE_RENDERING_TEXTURE_ILLUMINATION_FLAT_SHADING;break;
+        case GLUT_KEY_F7:Mode_rendering=MODE_RENDERING_TEXTURE_ILLUMINATION_SMOOTH_SHADING;break;
    }
    glutPostRedisplay();
 }
@@ -608,6 +660,8 @@ void initialize(void)
 
 int main(int argc, char **argv)
 {
+  _textura imagen("../images/bricks.jpg");
+
 	if(argc == 2)
 	{
 		_file_ply File_ply;
@@ -617,7 +671,7 @@ int main(int argc, char **argv)
 		
 		if ( File_ply.open(argv[1]) )
 		{
-      std::cout << "Archivo abierto con éxito" << std::endl;
+      std::cout << endl << endl << "Archivo abierto con éxito" << std::endl;
 
 			File_ply.read(Vertices,Triangles);
       inicialPLYv = Vertices;
@@ -628,7 +682,8 @@ int main(int argc, char **argv)
 
       int selec;
 
-      std::cout << "No rotar <0>, Rotar eje X <1>, Rotar eje Y <2>, Rotar eje Z <3>, Rotar vector arbitrario <4>:" << std::endl;
+      std::cout << "<0> No rotar" << endl << "<1> Rotar eje X" << endl << "<2> Rotar eje Y" << endl << "<3> Rotar eje Z" <<
+           endl <<"<4> Rotar vector arbitrario:" << std::endl;
 
       std::cin >> selec;
 

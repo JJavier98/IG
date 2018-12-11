@@ -18,7 +18,7 @@ class _node
 {
 public:
 	// DATOS MIEMBRO
-	float anguloRotacion = M_PI/36; //Radianes
+	float anguloRotacion = 5*M_PI/180; //Radianes
 	int repeticiones_necesarias = 2*M_PI/anguloRotacion;
 
 	float xt, yt, zt;

@@ -1,7 +1,5 @@
 # fichero Makefile
 #
-# Domingo Martin Perandres 2017
-
 # nombre del fichero ejecutable
 #
 TARGETS= practica3
@@ -14,14 +12,14 @@ GL_DIR=/usr/X11R6
 # encontrar ficheros para incluir mediante la opcion -I
 # la opcion -g sirve para permitir la depuración
 #
-CFLAGS=    -g -DXWINDOWS -DSHM -I/usr/include -I$(GLUT_DIR)/include -I. --std=c++11
-CXXFLAGS=  -g -DXWINDOWS -DSHM -I/usr/include -I$(GLUT_DIR)/include -I. --std=c++11
+CFLAGS=    -g -DXWINDOWS -DSHM -I/usr/include -I$(GLUT_DIR)/include -I. -I./CImg-2.1.5 --std=c++11
+CXXFLAGS=  -g -DXWINDOWS -DSHM -I/usr/include -I$(GLUT_DIR)/include -I. -I./CImg-2.1.5 --std=c++11
 
 # banderas pra el enlazador
 # Se indica directorios donde encontrar las funciontecas con -L. Usando -l seguido del
 # nombre se indica la funcionteca que se desea enlazar.
 #
-LDFLAGS= -L$(GL_DIR)/lib64 -lGL -L$(GLUT_DIR)/lib64 -lglut 
+LDFLAGS= -L$(GL_DIR)/lib64 -lGL -L$(GLUT_DIR)/lib64 -lglut -L/usr/X11R6/lib/ -lGLU -lm -lX11 -lpthread
 
 # definicion del compilador
 #
@@ -53,7 +51,7 @@ default : $(TARGETS)
 # regla de dependencias
 #
 $(TARGETS) : axis.o tetrahedron.o cube.o file_ply_stl.o practica3.o cylinder.o cone.o sphere.o base_grua.o tronco_grua.o brazo.o\
-		grua.o paralelepipedo.o extensor.o punta.o cuenco.o toro.o cuerpo_toro.o cabeza_toro.o piernas_toro.o node.o
+		grua.o paralelepipedo.o extensor.o punta.o cuenco.o toro.o cuerpo_toro.o cabeza_toro.o piernas_toro.o node.o textura.o
 
 practica3.o: practica3.cc
 
@@ -96,6 +94,8 @@ cabeza_toro.o: cabeza_toro.cc cabeza_toro.h
 piernas_toro.o: piernas_toro.cc piernas_toro.h
 
 node.o: node.cc node.h
+
+textura.o: textura.cc textura.h
 
 
 # regla para limpiar

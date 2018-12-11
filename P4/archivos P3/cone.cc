@@ -17,11 +17,24 @@ _cone::_cone(float Size)
 	angulo1 = 0;
 	velocidad = 1;
 	
+	int vertices_base;
+
+	Vertices.push_back(_vertex3f(Size/2,0.0,0.0));
+	rotarArbitrario(0,1,0,false,false,true);
+	vertices_base = Vertices.size();
 
 	Vertices.push_back(_vertex3f(0.0,Size,0.0));
-	Vertices.push_back(_vertex3f(Size/2,0.0,0.0));
+	Vertices.push_back(_vertex3f(0.0,0.0,0.0));
 
-	rotarArbitrario(0,1,0);
+	for (int i = 0; i < vertices_base-1; ++i)
+	{
+		Triangles.push_back(_vertex3ui(i, i+1, vertices_base));
+	}
+
+	for (int i = 0; i < vertices_base-1; ++i)
+	{
+		Triangles.push_back(_vertex3ui(i+1, i, vertices_base+1));
+	}
 	
    	calcularNormales();
 }

@@ -10,8 +10,6 @@ _grua::_grua()
 {
 	_base base;
 	add_hijo(base);
-	
-   	calcularNormales();
 }
 
 void _grua::incrementar_desplazamiento_punta()
@@ -124,10 +122,10 @@ void _grua::funcion_idle()
 
 	// PUNTA
 	
-	if(cambio1)
+	/*if(cambio1)
 		incrementar_desplazamiento_punta();
 	else
-		decrementar_desplazamiento_punta();
+		decrementar_desplazamiento_punta();*/
 	
 	
 	glutPostRedisplay();

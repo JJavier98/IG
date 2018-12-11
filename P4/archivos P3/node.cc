@@ -68,7 +68,8 @@ void _node::calcularNormales()
 	// INICIALIZAR NORMALES
   	vector< vector<_vertex3f> > vn_vertex;
   	vn_vertex.resize(Vertices.size());
-  	vertex_Normals.resize(Vertices.size());
+   vertex_Normals.resize(Vertices.size());
+  	triangle_Normals.resize(Triangles.size());
 
    _vertex3f normal, //vector normal no unitario
    			 A,		//primer vector para el producto
@@ -89,7 +90,7 @@ void _node::calcularNormales()
    	indice1 = Triangles[i]._1;
    	indice2 = Triangles[i]._2;
 
-      cero 	= Vertices[ indice0 ]; 	// vertice0
+      cero 	= Vertices[ indice0 ]; 	   // vertice0
       uno 	= Vertices[ indice1 ];  	// vertice1
       dos 	= Vertices[ indice2 ];  	// vertice2
 
@@ -105,7 +106,26 @@ void _node::calcularNormales()
       v_normalizado = normal;
       v_normalizado.normalize();
 
-      triangle_Normals.push_back(v_normalizado); // vector normal al triangulo
+      for (int i = 0; i < 3; ++i)
+      {
+         switch(i)
+         {
+            case 0:
+               if(1e-05 > abs(v_normalizado.x))
+                  v_normalizado.x = 0;
+               break;
+            case 1:
+               if(1e-05 > abs(v_normalizado.y))
+                  v_normalizado.y = 0;
+               break;
+            case 2:
+               if(1e-05 > abs(v_normalizado.z))
+                  v_normalizado.z = 0;
+               break;
+         }
+      }
+
+      triangle_Normals[i] = v_normalizado; // vector normal al triangulo
 
       // vectores normales a los vertices
       if (vn_vertex[indice0].size()==0)
@@ -181,7 +201,7 @@ void _node::calcularNormales()
    {
    	vertex_Normals[i].normalize();
    }
-   cout << "triangulos: " << endl;
+   /*cout << "triangulos: " << endl;
    for (int i = 0; i < triangle_Normals.size(); ++i)
    {
    	cout << triangle_Normals[i].x << " " << triangle_Normals[i].y << " " << triangle_Normals[i].z << endl;
@@ -190,7 +210,7 @@ void _node::calcularNormales()
    for (int i = 0; i < vertex_Normals.size(); ++i)
    {
    	cout << vertex_Normals[i].x << " " << vertex_Normals[i].y << " " << vertex_Normals[i].z << endl;
-   }
+   }*/
 }
 
 void _node::incrementar_inclinacion()
