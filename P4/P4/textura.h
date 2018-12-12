@@ -21,7 +21,7 @@ public:
 
 	void destructor();
 
-	~_textura();
+	//~_textura();
 
 protected:
 	GLuint _id;

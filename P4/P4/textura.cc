@@ -50,9 +50,10 @@ void _textura::destructor()
    if (this->_id)
       glDeleteTextures(1, &this->_id);
 }
-
+/*
 _textura::~_textura()
 {
    if (this->_id)
       glDeleteTextures(1, &this->_id);
 }
+*/
