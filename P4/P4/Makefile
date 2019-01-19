@@ -53,7 +53,7 @@ default : $(TARGETS)
 $(TARGETS) : axis.o tetrahedron.o cube.o file_ply_stl.o practica4.o cylinder.o cone.o sphere.o base_grua.o tronco_grua.o brazo.o\
 		grua.o paralelepipedo.o extensor.o punta.o cuenco.o toro.o cuerpo_toro.o cabeza_toro.o piernas_toro.o node.o textura.o chess_board.o
 
-practica4.o: practica4.cc
+practica4.o: practica4.cc node.o
 
 file_ply_stl.o: file_ply_stl.cc file_ply_stl.h
 

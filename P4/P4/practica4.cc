@@ -127,7 +127,9 @@ void set_lights()
 {
     if (Light0_active)
     {
-        _vertex4f Position(100,100,100,1);
+        _vertex3f pos={100,100,100};
+        pos.normalize();
+        _vertex4f Position(pos.x,pos.y,pos.z,0);
         _vertex4f Ambient(0.3,0.3,0.3,1);
 
         glLightfv(GL_LIGHT0,GL_AMBIENT,(GLfloat *)&Ambient);
@@ -136,6 +138,8 @@ void set_lights()
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glLoadIdentity();
+        //glRotatef(Observer_angle_x, 1, 0, 0);
+        //glRotatef(Observer_angle_y, 0, 1, 0);
 
         glLightfv(GL_LIGHT0,GL_POSITION,(GLfloat *)&Position);
         glPopMatrix();

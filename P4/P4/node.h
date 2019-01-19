@@ -51,6 +51,7 @@ public:
 	vector<_vertex3f> triangle_Normals;
 
 	// MÉTODOS
+
 	_node();
 	_node& operator = (const _node &p);
 
@@ -60,6 +61,7 @@ public:
 	void add_hijo(_node hijo);
 	void load(const vector<_vertex3f> & V, const vector<_vertex3ui> & T);
 	void calcularNormales();
+	void dibujarNormales();
 
 	void draw_line();
 	void draw_fill(_shading_mode modo = FLAT_MODE, int color = 0);

@@ -7,6 +7,18 @@
 using namespace _colors_ne;
 using namespace std;
 
+void _node::dibujarNormales(){
+   GLfloat const red[3] = {1,0,0};
+   glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+   glBegin(GL_LINES);
+   glColor3fv(red);
+   for (unsigned int i=0;i<Vertices.size();i++){
+      _vertex3f suma = Vertices[i]+vertex_Normals[i];
+      glVertex3fv((GLfloat *) &Vertices[i]);
+      glVertex3fv((GLfloat *) &suma);
+   }
+   glEnd();
+}
 
 _node::_node()
 {
@@ -215,6 +227,7 @@ void _node::calcularNormales()
    	cout << vertex_Normals[i].x << " " << vertex_Normals[i].y << " " << vertex_Normals[i].z << endl;
    }*/
 }
+
 
 void _node::incrementar_inclinacion()
 {
@@ -438,6 +451,8 @@ void _node::draw_point()
    glTranslatef(xt+desplazamiento_x, yt+desplazamiento_y, zt+desplazamiento_z);
    glRotatef(angulo1+velocidad,xr,yr,zr);
    glScalef(xs,ys,zs);
+   
+   dibujarNormales();
 
       draw_point_obj();  
       
@@ -447,7 +462,6 @@ void _node::draw_point()
       }
 
    glPopMatrix();
-
 }
 
 void _node::draw_line()
