@@ -28,4 +28,5 @@ _tronco::_tronco()
 	velocidad = 1;
 	
    	calcularNormales();
+   asignarIdentificadores();
 }

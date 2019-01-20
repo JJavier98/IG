@@ -30,4 +30,5 @@ _chess_board::_chess_board(float Size,unsigned int Divisions1)
 	Triangles[1]=_vertex3ui(0,2,3);
 
 	calcularNormales();
+   asignarIdentificadores();
 }

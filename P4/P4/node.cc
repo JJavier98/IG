@@ -78,6 +78,36 @@ void _node::load(const vector<_vertex3f> & V, const vector<_vertex3ui> & T)
    Triangles = T;
 }
 
+void _node::asignarIdentificadores()
+{
+   int identificador = 0;
+
+   for (int i = 0; i < Triangles.size(); ++i)
+   {
+      triangle_Identificator.push_back(identificador);
+      identificador += 0x01;
+   }
+}
+
+void _node::sacarColor(vector<int> & v, int i)
+{
+   int id = triangle_Identificator[i];
+
+   v[0] = id & 0x0000ff;
+   v[1] = (id & 0x00ff00) >> 8;
+   v[2] = (id & 0xff0000) >> 16;
+}
+
+int _node::devuelveIdentificadores(int R, int G, int B)
+{
+   int identificador = B;
+
+   identificador += (G << 8);
+   identificador += (R << 16)
+
+   return identificador;
+}
+
 void _node::calcularNormales()
 {
 	// INICIALIZAR NORMALES
@@ -367,10 +397,10 @@ void _node::draw_point_obj()
 
 void _node::draw_line_obj()
 {
-   GLfloat const purple[3] = {0,0,0};
+   GLfloat const black[3] = {0,0,0};
    glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
    glBegin(GL_TRIANGLES);
-   glColor3fv(purple);
+   glColor3fv(black);
    for (unsigned int i=0;i<Triangles.size();i++){
       glVertex3fv((GLfloat *) &Vertices[Triangles[i]._0]);
       glVertex3fv((GLfloat *) &Vertices[Triangles[i]._1]);
@@ -382,6 +412,7 @@ void _node::draw_line_obj()
 void _node::draw_fill_obj(_shading_mode modo, int color)
 {
 	_vertex3f normal;
+   vector<_vertex3f> color_f;
    GLfloat const purple[3] = {0.5,0,1};
    GLfloat const white[3] = {1,1,1};
 

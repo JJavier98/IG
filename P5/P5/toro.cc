@@ -26,4 +26,5 @@ _toro::_toro()
 	add_hijo(cuerpo);
 	
    	calcularNormales();
+   asignarIdentificadores();
 }

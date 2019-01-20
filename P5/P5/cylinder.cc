@@ -25,4 +25,5 @@ _cylinder::_cylinder(float R, float H)
 	rotarArbitrario(0,1,0);
 	
    	calcularNormales();
+   asignarIdentificadores();
 }

@@ -56,5 +56,6 @@ _cube::_cube(float Size)
    Triangles[11]=_vertex3ui(3,5,6);
 
    calcularNormales();
+   asignarIdentificadores();
 }
 

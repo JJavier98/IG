@@ -50,4 +50,5 @@ _cabeza_toro::_cabeza_toro(float W, float H)
    Triangles[11]=_vertex3ui(3,5,6);
 
    calcularNormales();
+   asignarIdentificadores();
 }

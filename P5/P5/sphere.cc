@@ -26,4 +26,5 @@ _sphere::_sphere(float Size)
 	rotarArbitrario(0,1,0);
 
    	calcularNormales();
+   asignarIdentificadores();
 }

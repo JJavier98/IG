@@ -1,12 +1,15 @@
+// LIBRARIES
 #include "node.h"
 #include "textura.h"
 #include <vector>
 #include <iostream>
 #include <cmath>
 
+// NAMESPACES
 using namespace _colors_ne;
 using namespace std;
 
+// DIBUJA LAS NORMALES PARA UNA MEJOR COMPRENSION
 void _node::dibujarNormales(){
    GLfloat const red[3] = {1,0,0};
    glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
@@ -20,6 +23,7 @@ void _node::dibujarNormales(){
    glEnd();
 }
 
+// CONSTRUCTOR
 _node::_node()
 {
    xt = 0.0;
@@ -40,6 +44,7 @@ _node::_node()
    hijos.clear();
 }
 
+// OPERADOR DE IGUALDAD
 _node& _node::operator = (const _node &p)
 {
    if(this!=&p)
@@ -67,17 +72,102 @@ _node& _node::operator = (const _node &p)
    return *this;
 }
 
+// AÑADE UN HIJO AL VECTOR DE HIJOS
 void _node::add_hijo(_node hijo)
 {
    hijos.push_back(hijo);
 }
 
+// CARGA V EN VÉRTICES Y T EN TRIANGULOS
 void _node::load(const vector<_vertex3f> & V, const vector<_vertex3ui> & T)
 {
    Vertices = V;
    Triangles = T;
 }
 
+/*
+** MÉTODOS PARA ASIGNAR UN IDENTIFICADOR UNICO A CADA TRIANGULO DEL OBJETO
+*/
+  void _node::asignarIdentificadores(unsigned f, unsigned s, unsigned t)
+  {
+     _vertex3ui aux;
+     aux = asignarIdentificadores_obj(f, s, t);
+     
+     for (int i = 0; i < hijos.size(); ++i)
+     {
+        hijos[i].asignarIdentificadores(aux.x, aux.y, aux.z);
+     }
+  }
+  /* MÉTODO DE AYUDA AL ANTERIOR */
+  _vertex3ui _node::asignarIdentificadores_obj(unsigned f, unsigned s, unsigned t)
+  {
+     Identificador ide;
+     ide.first = f;
+     ide.second = s;
+     ide.third = t;
+
+      triangle_Identificator.clear();
+
+     for (int i = 0; i < Triangles.size(); ++i)
+     {
+          triangle_Identificator.push_back(ide);
+          if(ide.third < 255)
+          {
+              ide.third++;
+          }
+          else if (ide.second < 255)
+          {
+              ide.second++;
+              ide.third = 0;
+          }
+          else if (ide.first < 255)
+          {
+              ide.first++;
+              ide.second = ide.third = 0;
+          }
+          else
+          {
+           ide.first = ide.second = ide.third = 0;
+          }
+     }
+     _vertex3ui aux;
+     aux.x = ide.first;
+     aux.y = ide.second;
+     aux.z = ide.third;
+
+     return aux;
+  }
+/*----------------------------------------------------------------------------------*/
+
+/*
+** MÉTODOS PARA MARCAR LOS TRIANGULOS QUE HAN SIDO CLICADOS Y QUE HABRÁ QUE COLOREAR
+*/
+void _node::marcar_seleccionados(unsigned r, unsigned g, unsigned b)
+{
+   marcar_seleccionados_obj(r, g, b);
+
+   for (int i = 0; i < hijos.size(); ++i)
+   {
+      hijos[i].marcar_seleccionados(r, g, b);
+   }
+}
+/* MÉTODO DE AYUDA AL ANTERIOR */
+void _node::marcar_seleccionados_obj(unsigned r, unsigned g, unsigned b)
+{
+    bool encontrado = false;
+
+   for (int i = 0; i < triangle_Identificator.size() and !encontrado; ++i)
+   {
+        if(triangle_Identificator[i].first == r and triangle_Identificator[i].second == g and triangle_Identificator[i].third == b)
+        {
+            triangle_Identificator[i].colored = !triangle_Identificator[i].colored;
+            encontrado = true;
+        }
+   }
+}
+/*----------------------------------------------------------------------------------*/
+
+// CALCULA LAS NORMALES DE LOS VERTICES Y LAS CARAS DEL OBJETO
 void _node::calcularNormales()
 {
 	// INICIALIZAR NORMALES
@@ -228,7 +318,9 @@ void _node::calcularNormales()
    }*/
 }
 
-
+/*
+** MÉTODOS PARA ANIMAR EL OBJETO
+*/
 void _node::incrementar_inclinacion()
 {
    if(angulo1 + velocidad < limiteInclinacion1)
@@ -349,6 +441,7 @@ void _node::decrementar_rotacion()
 {
    angulo1 -= velocidad;
 }
+/*----------------------------------------------------------------------------------*/
 
 ////////////////////////////////////////////////////////
 ////////// FUNCIONES DE DIBUJADO ///////////////////////
@@ -363,6 +456,40 @@ void _node::draw_point_obj()
       glVertex3fv((GLfloat *) &Vertices[i]);
    }
    glEnd();
+}
+
+void _node::draw_identificadores()
+{
+    glMatrixMode(GL_MODELVIEW);
+   
+    glPushMatrix();
+        glTranslatef(xt+desplazamiento_x, yt+desplazamiento_y, zt+desplazamiento_z);
+        glRotatef(angulo1+velocidad,xr,yr,zr);
+        glScalef(xs,ys,zs);
+
+        draw_identificadores_obj();
+
+         for(int i = 0; i < hijos.size() ; ++i)
+         {
+            hijos[i].draw_identificadores();
+         }
+
+    glPopMatrix();
+}
+
+void _node::draw_identificadores_obj()
+{
+    glPolygonMode(GL_FRONT,GL_FILL);
+    glBegin(GL_TRIANGLES);
+       for (int i=0;i<Triangles.size();i++)
+       {
+           glColor3f(((float)triangle_Identificator[i].first)/255, ((float)triangle_Identificator[i].second)/255, ((float)triangle_Identificator[i].third)/255);
+
+           glVertex3fv((GLfloat *) &Vertices[Triangles[i]._0]);
+           glVertex3fv((GLfloat *) &Vertices[Triangles[i]._1]);
+           glVertex3fv((GLfloat *) &Vertices[Triangles[i]._2]);
+       }
+       glEnd();
 }
 
 void _node::draw_line_obj()
@@ -384,14 +511,24 @@ void _node::draw_fill_obj(_shading_mode modo, int color)
 	_vertex3f normal;
    GLfloat const purple[3] = {0.5,0,1};
    GLfloat const white[3] = {1,1,1};
+   GLfloat const yellow[3] = {1,1,0};
 
    glPolygonMode(GL_FRONT/*_AND_BACK*/,GL_FILL);
    glBegin(GL_TRIANGLES);
-   if(color == 1)
-      glColor3fv(white);
-   else
-      glColor3fv(purple);
    for (unsigned int i=0;i<Triangles.size();i++){
+
+    if(color == 1)
+    {
+        glColor3fv(white);
+    }
+    else if(triangle_Identificator[i].colored)
+    {
+        glColor3fv(yellow);
+    }
+    else if(!triangle_Identificator[i].colored)
+    {
+        glColor3fv(purple);
+    }
    	if(modo == FLAT_MODE)
    	{
    		normal = triangle_Normals[i]; 
@@ -416,6 +553,7 @@ void _node::draw_fill_obj(_shading_mode modo, int color)
 	      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._2]);
    	}
    }
+
    glEnd();
 }
 

@@ -59,4 +59,5 @@ _cuerpo_toro::_cuerpo_toro(float W, float H)
 	//add_hijo(piernas);
 
    calcularNormales();
+   asignarIdentificadores();
 }

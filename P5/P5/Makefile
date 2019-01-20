@@ -2,7 +2,7 @@
 #
 # nombre del fichero ejecutable
 #
-TARGETS= practica4
+TARGETS= practica5
 
 #
 GLUT_DIR=/usr
@@ -50,10 +50,10 @@ default : $(TARGETS)
 
 # regla de dependencias
 #
-$(TARGETS) : axis.o tetrahedron.o cube.o file_ply_stl.o practica4.o cylinder.o cone.o sphere.o base_grua.o tronco_grua.o brazo.o\
+$(TARGETS) : axis.o tetrahedron.o cube.o file_ply_stl.o practica5.o cylinder.o cone.o sphere.o base_grua.o tronco_grua.o brazo.o\
 		grua.o paralelepipedo.o extensor.o punta.o cuenco.o toro.o cuerpo_toro.o cabeza_toro.o piernas_toro.o node.o textura.o chess_board.o
 
-practica4.o: practica4.cc node.o
+practica5.o: practica5.cc node.o
 
 file_ply_stl.o: file_ply_stl.cc file_ply_stl.h
 

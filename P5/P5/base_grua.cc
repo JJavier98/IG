@@ -24,4 +24,5 @@ _base::_base()
 	zs = 1.5;
 	
    	calcularNormales();
+   asignarIdentificadores();
 }

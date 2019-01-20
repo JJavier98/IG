@@ -49,6 +49,7 @@ public:
 
 	vector<_vertex3f> vertex_Normals;
 	vector<_vertex3f> triangle_Normals;
+	vector<int> triangle_Identificator;
 
 	// MÉTODOS
 
@@ -62,6 +63,9 @@ public:
 	void load(const vector<_vertex3f> & V, const vector<_vertex3ui> & T);
 	void calcularNormales();
 	void dibujarNormales();
+	void asignarIdentificadores();
+	void sacarColor(vector<int> & v, int i);
+	int devuelveIdentificadores(int R, int G, int B);
 
 	void draw_line();
 	void draw_fill(_shading_mode modo = FLAT_MODE, int color = 0);

@@ -37,4 +37,5 @@ _cone::_cone(float Size)
 	}
 	
    	calcularNormales();
+   asignarIdentificadores();
 }

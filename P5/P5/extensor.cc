@@ -30,5 +30,6 @@ _extensor::_extensor()
 	limiteInclinacion2 = -55;
 	
    	calcularNormales();
+   asignarIdentificadores();
 }
 

@@ -33,4 +33,5 @@ _cuenco::_cuenco(float R, float H)
 	this->rotarArbitrario(0,1,0,true,true,true,0);
 	
    	calcularNormales();
+   asignarIdentificadores();
 }
